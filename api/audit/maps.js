@@ -67,13 +67,23 @@ module.exports = async function handler(req, res) {
       }
 
       // Extract Name from URL
-      const mPlace = canonicalUrl.match(/\/maps\/place\/([^/@?]+)/);
+      const mPlace = canonicalUrl.match(/\/maps\/place\/([^/@?]+)/i);
       if (mPlace) {
         const rawPlace = decodeURIComponent(mPlace[1].replace(/\+/g, ' ')).trim();
         const parts = rawPlace.split(',').map(p => p.trim()).filter(Boolean);
         businessName = parts[0];
         if (parts.length > 1) {
           address = parts.slice(1).join(', ');
+        }
+      } else {
+        const mSearch = canonicalUrl.match(/\/maps\/search\/([^/@?]+)/i);
+        if (mSearch) {
+          businessName = decodeURIComponent(mSearch[1].replace(/\+/g, ' ')).trim();
+        } else {
+          const mQ = canonicalUrl.match(/[?&]q=([^&]+)/i);
+          if (mQ) {
+            businessName = decodeURIComponent(mQ[1].replace(/\+/g, ' ')).trim();
+          }
         }
       }
 
@@ -164,8 +174,23 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    // 3. Google Travel & Search Knowledge Graph Extraction (Fallback when API key not set)
-    if (!verifiedFromGoogle) {
+    // 3. Category Detection from query & URL context
+    const bLower = (businessName + ' ' + canonicalUrl + ' ' + address).toLowerCase();
+    if (/(dental|dentist|teeth|clinic|hospital|doctor|physio|pathology|derma|skin|eye|health|diagnostics)/i.test(bLower)) {
+      category = 'Dental Clinic & Healthcare Practice';
+    } else if (/(cafe|coffee|restaurant|dhaba|bistro|bakery|food|dining|kitchen|pizzeria|pizza|burger|sweets|biryani)/i.test(bLower)) {
+      category = 'Restaurant, Cafe & Dining';
+    } else if (/(hotel|resort|motel|stay|inn|lodge|guest house|suites|palace)/i.test(bLower)) {
+      category = 'Hotel, Resort & Hospitality Stay';
+    } else if (/(apartment|residency|villa|builder|developer|real estate|property|housing|towers|greens)/i.test(bLower)) {
+      category = 'Real Estate & Infrastructure Developer';
+    } else if (/(tile|marble|sanitary|cloth|textile|saree|jewel|furniture|electronics|mobile|optics|hardware|motors|cars|store|showroom)/i.test(bLower)) {
+      category = 'Retail Showroom & Commercial Trade';
+    }
+
+    // 4. Strict Hotel Travel Search (ONLY when the business is genuinely a hotel)
+    const isHotel = category === 'Hotel, Resort & Hospitality Stay';
+    if (!verifiedFromGoogle && isHotel) {
       try {
         const searchUrl = `https://www.google.com/travel/search?q=${encodeURIComponent(businessName + ' ' + city)}&hl=en`;
         const sResp = await fetch(searchUrl, {
@@ -176,13 +201,16 @@ module.exports = async function handler(req, res) {
         });
         if (sResp.ok) {
           const sHtml = await sResp.text();
-          const mAria = sHtml.match(/aria-label="([0-9.]+)\s+out of 5 stars from\s+([0-9,]+)\s+reviews/i);
-          if (mAria) {
-            rating = parseFloat(mAria[1]);
-            reviewCount = parseInt(mAria[2].replace(/,/g, ''));
-            category = 'Hotel, Resort & Hospitality Stay';
-            verifiedFromGoogle = true;
-            dataSource = 'google_travel_verified';
+          const mH1 = sHtml.match(/<h1[^>]*>([^<]+)<\/h1>/i);
+          const tName = mH1 ? mH1[1].trim() : '';
+          if (tName && (tName.toLowerCase().includes(businessName.toLowerCase()) || businessName.toLowerCase().includes(tName.toLowerCase()))) {
+            const mAria = sHtml.match(/aria-label="([0-9.]+)\s+out of 5 stars from\s+([0-9,]+)\s+reviews/i);
+            if (mAria) {
+              rating = parseFloat(mAria[1]);
+              reviewCount = parseInt(mAria[2].replace(/,/g, ''));
+              verifiedFromGoogle = true;
+              dataSource = 'google_travel_verified';
+            }
           }
         }
       } catch (tErr) {

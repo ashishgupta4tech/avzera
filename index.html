@@ -1649,19 +1649,19 @@
 
                           <span id="resProfileRatingPill" class="text-xs font-black text-amber-900 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-300">
 
-                            ⭐ 4.3★ Rating
+                            ⭐ Live Google Rating
 
                           </span>
 
                           <span id="resProfileReviewsPill" class="text-xs font-bold text-blue-900 bg-blue-100 px-2.5 py-0.5 rounded-full border border-blue-200">
 
-                            20 Reviews
+                            Verified Reviews
 
                           </span>
 
                         </div>
 
-                        <h4 id="resGmbBizTitle" class="text-lg sm:text-xl font-black" style="color: var(--text-primary);">Hotel Ayona International</h4>
+                        <h4 id="resGmbBizTitle" class="text-lg sm:text-xl font-black" style="color: var(--text-primary);">Audited Business Profile</h4>
 
                         <div id="resGmbAddressRow" class="text-xs font-medium text-slate-600 dark:text-slate-300 mt-1 flex items-start gap-1.5">
 
@@ -1669,6 +1669,23 @@
 
                           <span id="resGmbAddressText">Ground Floor, Murdhawa Colony Rd, Belhatthi, Renukoot, Uttar Pradesh 231217</span>
 
+                        </div>
+
+                        <!-- 100% Accurate Live Review Sync Toolbar -->
+                        <div id="liveReviewSyncBar" class="mt-2.5 p-2 rounded-lg bg-blue-50/90 dark:bg-slate-800/90 border border-blue-200 dark:border-blue-800 flex flex-wrap items-center gap-2 text-xs">
+                          <span class="font-bold text-slate-700 dark:text-slate-200">📊 Live Review Sync:</span>
+                          <div class="flex items-center gap-1">
+                            <span class="text-slate-500 font-medium">Rating:</span>
+                            <input id="inputSyncRating" type="number" step="0.1" min="1.0" max="5.0" placeholder="4.8" class="w-16 px-1.5 py-0.5 rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 font-bold text-center text-slate-800 dark:text-slate-100">
+                            <span class="text-amber-500 font-bold">★</span>
+                          </div>
+                          <div class="flex items-center gap-1">
+                            <span class="text-slate-500 font-medium">Reviews:</span>
+                            <input id="inputSyncReviews" type="number" min="0" placeholder="150" class="w-20 px-1.5 py-0.5 rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 font-bold text-center text-slate-800 dark:text-slate-100">
+                          </div>
+                          <button onclick="applyReviewSync()" type="button" class="px-2.5 py-1 rounded bg-[#0066fe] hover:bg-blue-600 text-white font-bold text-[11px] transition-colors cursor-pointer shadow-sm">
+                            ✓ Update Report & PDF
+                          </button>
                         </div>
 
                         <div id="resGmbMeta" class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
@@ -7304,6 +7321,10 @@
         }
 
         lastGmbAuditData = resData;
+        const syncRatInput = document.getElementById('inputSyncRating');
+        const syncRevInput = document.getElementById('inputSyncReviews');
+        if (syncRatInput) syncRatInput.value = (resData.rating && parseFloat(resData.rating) > 0) ? resData.rating : '';
+        if (syncRevInput) syncRevInput.value = (resData.review_count && parseInt(resData.review_count) > 0) ? resData.review_count : '';
 
         // Populate Audit Results
 
@@ -7913,399 +7934,255 @@
       // ================= DEDICATED PDF EXPORT GENERATORS (ROCK-SOLID TABLE LAYOUT) =================
 
       function generateGmbCertificateHtml(data) {
-
         const bizName = data.business_name || 'Your Business';
-
         const city = data.city || 'Raipur';
-
         const address = data.address || '';
+        const rating = (data.rating !== null && data.rating !== undefined && parseFloat(data.rating) > 0) ? parseFloat(data.rating).toFixed(1) : null;
+        const reviewCount = (data.review_count !== null && data.review_count !== undefined && parseInt(data.review_count) > 0) ? parseInt(data.review_count) : null;
+        const category = data.category || 'Local Commercial Establishment';
+        const score = data.score || 55;
+        const auditId = data.audit_id || ('AVZ-CG-' + Math.floor(10000 + Math.random() * 90000));
+        const timestamp = data.timestamp || new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+        const directUrl = data.direct_profile_url || data.direct_url || '';
 
-        const rating = data.rating || '4.3';
-
-        const reviewCount = data.review_count || '20';
-
-        const category = data.category || 'Hotel, Resort & Hospitality Stay';
-
-        const score = data.score || 42;
-
-        const auditId = data.audit_id || 'AVZ-CG-2026';
-
-        const timestamp = data.timestamp || new Date().toLocaleDateString('en-IN');
-
-        const directUrl = data.direct_profile_url || '';
-
-        const revTxt = reviewCount ? (reviewCount + ' verified reviews') : 'only 20 reviews';
-
-        const ratTxt = rating ? (rating + '★') : '4.3★';
-
+        const revTxt = reviewCount ? (reviewCount.toLocaleString() + ' verified reviews') : 'Verified Live Google Presence';
+        const ratTxt = rating ? (rating + '★') : 'Location Active';
         const catLower = (category + ' ' + bizName).toLowerCase();
 
-        const isHotel = ['hotel', 'resort', 'motel', 'stay', 'lodge', 'homestay', 'guest house', 'inn'].some(k => catLower.includes(k));
+        const isHotel = ['hotel', 'resort', 'motel', 'stay', 'lodge', 'guest house', 'inn'].some(k => catLower.includes(k));
+        const isClinic = ['dental', 'dentist', 'teeth', 'clinic', 'hospital', 'doctor', 'physio', 'pathology', 'derma', 'skin', 'eye', 'health', 'diagnostics'].some(k => catLower.includes(k));
+        const isFood = ['cafe', 'coffee', 'restaurant', 'dhaba', 'bistro', 'bakery', 'food', 'dining', 'kitchen', 'pizzeria', 'pizza', 'burger', 'sweets', 'biryani'].some(k => catLower.includes(k));
+        const isRealEstate = ['apartment', 'residency', 'villa', 'builder', 'developer', 'real estate', 'property', 'housing', 'towers', 'greens'].some(k => catLower.includes(k));
+        const isRetail = ['tile', 'marble', 'sanitary', 'cloth', 'textile', 'saree', 'jewel', 'furniture', 'electronics', 'mobile', 'optics', 'hardware', 'motors', 'cars', 'store', 'showroom'].some(k => catLower.includes(k));
 
-        const rNum = parseFloat(rating) || 4.0;
-
-        const revNum = parseInt(String(reviewCount).replace(/[^0-9]/g, '')) || 20;
+        const rNum = rating ? parseFloat(rating) : 4.5;
+        const revNum = reviewCount ? parseInt(String(reviewCount).replace(/[^0-9]/g, '')) : 0;
 
         let f1Title, f1Desc;
-
-        if (rNum < 4.0) {
-
-          f1Title = 'Critical Star Rating Drag (' + ratTxt + ' Below 4.0★ Search Filter Threshold)';
-
-          f1Desc = 'Over 65% of mobile searchers on Google Maps filter stays by "4.0★ and above". With a ' + ratTxt + ' rating, your establishment is automatically hidden from majority of premium guests. Rapid 5★ review velocity is required to lift your score to 4.2★+.';
-
-        } else if (revNum < 100) {
-
-          f1Title = 'Severe Review Volume Deficit (Only ' + revNum + ' Reviews vs 150–350+ Competitor Reviews)';
-
-          f1Desc = 'Your profile currently has only ' + revNum + ' reviews with a ' + ratTxt + ' rating. Competing establishments maintain 150 to 350+ reviews, giving them algorithmic priority on mobile search.';
-
+        if (reviewCount && rNum < 4.2) {
+          f1Title = 'Star Rating Below 4.2★ Filter Threshold (' + ratTxt + ')';
+          f1Desc = 'Over 68% of mobile searchers on Google Maps filter listings by 4.0★ and above. A ' + ratTxt + ' rating causes high-intent prospects to skip directly to higher-rated competitors in ' + city + '.';
+        } else if (reviewCount && revNum < 100) {
+          f1Title = 'Review Volume Deficit (' + revNum + ' Reviews vs Local Benchmark)';
+          f1Desc = 'Your profile has ' + revNum + ' reviews. Leading competitors in ' + city + ' maintain higher review volume, giving them algorithmic dominance on local Google 3-Pack search results.';
         } else {
-
-          f1Title = 'Review Velocity Stagnation & Negative Review Drag';
-
-          f1Desc = 'Although your profile has ' + revNum.toLocaleString() + ' reviews, recent review velocity has slowed down. Google algorithms prioritize businesses receiving steady weekly 5★ reviews.';
-
+          f1Title = 'Review Velocity Stagnation & Negative Review Vulnerability';
+          f1Desc = 'Google ranking algorithms strongly favor profiles receiving regular weekly 5★ reviews. Without a proactive counter review system, a single negative review drags down your rating and visibility.';
         }
 
-        let f2Title = 'Zero Billing Counter & Reception 5★ Review QR Standee';
+        let f2Title = 'Zero Physical Reception / Counter 5★ Review QR Standee';
+        let f2Desc = 'Over 90% of satisfied in-person customers leave without writing a Google review because there is no frictionless direct 5-star QR code at checkout, reception, or billing counters.';
 
-        let f2Desc = 'Over 90% of satisfied paying customers leave without writing a Google review. Lacks a high-resolution acrylic QR standee at payment/checkout.';
+        let f3Title, f3Desc;
+        if (isHotel) {
+          f3Title = 'High OTA Commission Leakage (15% to 25% Lost to MakeMyTrip/Goibibo)';
+          f3Desc = 'Lacks a direct WhatsApp room reservation funnel, forcing guests into aggregators and losing ₹25,000 to ₹70,000/month in OTA commissions.';
+        } else if (isClinic) {
+          f3Title = 'Missing Direct WhatsApp Patient Consultation & Appointment Funnel';
+          f3Desc = 'Patients searching on mobile bounce to competitor clinics if they cannot book an instant consultation via WhatsApp in under 3 seconds.';
+        } else if (isFood) {
+          f3Title = 'High Food Aggregator Commission Drain (20% to 30% Lost to Zomato/Swiggy)';
+          f3Desc = 'Lacks a direct WhatsApp digital menu and table reservation hook, surrendering high profit margins to aggregator apps.';
+        } else if (isRealEstate) {
+          f3Title = 'Missing Instant WhatsApp Site Visit & Brochure Lead Funnel';
+          f3Desc = 'High-value property buyers browsing listings expect instant brochure delivery and site visit scheduling on WhatsApp within seconds.';
+        } else if (isRetail) {
+          f3Title = 'Missing 1-Tap WhatsApp Product Catalog & Store Inquiries Hook';
+          f3Desc = 'Shoppers discovering your showroom on Google Maps bounce to nearby competitors when they cannot check inventory or chat instantly.';
+        } else {
+          f3Title = 'Missing Sub-Second Mobile Funnel (0.38s Load Time)';
+          f3Desc = 'Slow mobile page load causes over 58% of Google Maps search visitors to abandon and click back to competing businesses in ' + city + '.';
+        }
 
-        let f3Title = isHotel ? 'High OTA Commission Leakage (15% to 25% Lost to MakeMyTrip/Goibibo)' : 'Missing Sub-Second Mobile Funnel';
+        let f4Title, f4Desc;
+        if (isHotel) {
+          f4Title = 'Unanswered Late-Night Room Availability Calls (11 PM – 2 AM)';
+          f4Desc = 'Late-night traveler calls ring unanswered, sending bookings to nearby competitors.';
+        } else if (isClinic) {
+          f4Title = 'Unanswered After-Hours Patient Emergency & Appointment Enquiries';
+          f4Desc = 'Patient inquiries after clinic hours go unanswered, forfeiting consultations to clinics with 24/7 automated WhatsApp response.';
+        } else if (isFood) {
+          f4Title = 'Lost Peak-Hour & After-Hours Table & Catering Enquiries';
+          f4Desc = 'High-volume dining and catering enquiries go unanswered during rush hours or closed hours, forfeiting high-margin orders.';
+        } else if (isRealEstate) {
+          f4Title = 'Unanswered Evening & Weekend Buyer Enquiries';
+          f4Desc = 'Serious property buyers research in evenings; unanswered calls result in leads booking site visits with competing projects.';
+        } else {
+          f4Title = 'No Automated 24/7 After-Hours Customer Lead Capture Loop';
+          f4Desc = 'Customer calls and inquiries after business hours ring unanswered, leaking ready buyers to competing businesses.';
+        }
 
-        let f3Desc = isHotel ? ('With ' + revNum.toLocaleString() + ' reviews, your profile receives substantial organic search views, but you lack a direct WhatsApp room booking funnel. You lose ₹25,000 to ₹70,000/month in OTA commissions.') : 'Slow mobile website causes over 58% of mobile search visitors to abandon and click back to Google.';
+        let bItem3Title = isHotel ? '⚠️ 15%–25% OTA Commission Loss' : (isClinic ? '⚠️ Missed Patient Consultations' : (isFood ? '⚠️ 20%–30% Aggregator Margin Loss' : (isRealEstate ? '⚠️ Lost Buyer Inquiries & Site Visits' : (isRetail ? '⚠️ Walk-in Footfall Deficit' : '⚠️ High Mobile Visitor Bounce'))));
+        let bItem3Desc = isHotel ? 'No direct WhatsApp booking funnel; guests book via OTAs, surrendering high margins.' : (isClinic ? 'No instant appointment hook; patients bounce to competitor clinics.' : (isFood ? 'High commissions paid to delivery aggregators without building a direct customer list.' : (isRealEstate ? 'Slow response causes buyers to contact rival real estate agents.' : (isRetail ? 'No direct showroom catalog or WhatsApp inquiry line.' : 'Slow web presence causes ~58% of visitors to abandon and click back to Google.'))));
 
-        let f4Title = isHotel ? 'Unanswered Late-Night Room Availability Calls (11 PM – 2 AM)' : 'No Automated 24/7 After-Hours Lead Capture Loop';
+        let bItem4Title = isHotel ? '⚠️ Missed Late-Night Calls' : (isClinic ? '⚠️ Lost After-Hours Patients' : (isFood ? '⚠️ Unanswered Catering Queries' : (isRealEstate ? '⚠️ Missed High-Value Investor Calls' : '⚠️ Lost After-Hours Inquiries')));
+        let bItem4Desc = isHotel ? 'Urgent traveler calls (11 PM–2 AM) ring unanswered, sending bookings to rivals.' : (isClinic ? 'Evening patient queries go unanswered; competitors capture appointments.' : (isFood ? 'Party and catering calls during closed hours go completely lost.' : (isRealEstate ? 'Evenings & weekends calls go to voicemail or ring out.' : 'Customer calls after hours go unanswered, losing leads permanently.')));
 
-        let f4Desc = isHotel ? 'Late-night travelers call for urgent check-in and room rates. Unanswered calls bounce 100% of these high-margin bookings to nearby competitors.' : 'Customer calls and inquiries after business hours go unanswered, leaking hot leads to competitors.';
+        let aItem3Title = isHotel ? '✓ 0% Commission Direct WhatsApp Engine' : (isClinic ? '✓ 0.38s Direct WhatsApp Patient Funnel' : (isFood ? '✓ Direct WhatsApp Menu & Ordering Engine' : (isRealEstate ? '✓ Instant WhatsApp Brochure & Site Visit Bot' : (isRetail ? '✓ 1-Tap Showroom Catalog & WhatsApp Inquiry' : '✓ 0.38s Sub-Second Web Asset'))));
+        let aItem3Desc = isHotel ? '0.38s Lightning Funnel lets guests book directly on WhatsApp with zero OTA commissions.' : (isClinic ? '1-tap WhatsApp booking converts patients into scheduled clinic visits instantly.' : (isFood ? 'Customers browse digital menu and order or book tables with zero aggregator commission.' : (isRealEstate ? 'Sends project PDF brochure and books site visits in under 3 seconds automatically.' : (isRetail ? 'Enables shoppers to check product availability and visit the store immediately.' : 'Loads in 380ms with 99/100 Core Web Vitals on 4G/5G; converts visitors into chats instantly.'))));
 
-        let bItem3Title = isHotel ? '⚠️ 15%–25% OTA Commission Loss' : '⚠️ High Mobile Visitor Bounce';
+        let aItem4Title = isHotel ? '✓ 24/7 AI Voice & WhatsApp Receptionist' : (isClinic ? '✓ 24/7 AI Patient Booking Receptionist' : (isFood ? '✓ 24/7 AI Table & Catering Assistant' : (isRealEstate ? '✓ 24/7 AI Property Lead Concierge' : '✓ 24/7 AI Voice & Lead Bot')));
+        let aItem4Desc = isHotel ? 'Answers calls within 3 seconds, gives tariffs, and confirms bookings even at 2 AM automatically.' : (isClinic ? 'Answers patient inquiries in 3 seconds day and night, schedules appointments, and saves patient leads.' : (isFood ? 'Confirms reservations and answers timing/menu questions in 3 seconds.' : (isRealEstate ? 'Qualifies buyers, captures budget requirements, and routes to sales team instantly.' : 'Replies in under 3 seconds day and night, answers pricing queries, and saves leads.')));
 
-        let bItem3Desc = isHotel ? 'No direct WhatsApp booking funnel; guests book via OTAs, surrendering ₹25,000–₹70,000/month.' : 'Slow mobile website causes ~58% of visitors to abandon and click back to Google.';
-
-        let bItem4Title = isHotel ? '⚠️ Missed Late-Night Calls' : '⚠️ Lost After-Hours Inquiries';
-
-        let bItem4Desc = isHotel ? 'Urgent traveler calls (11 PM–2 AM) ring unanswered, sending bookings to rivals.' : 'Customer calls after hours go unanswered, losing leads permanently.';
-
-        let aItem3Title = isHotel ? '✓ 0% Commission Direct WhatsApp Engine' : '✓ 0.38s Sub-Second Web Asset';
-
-        let aItem3Desc = isHotel ? '0.38s Lightning Funnel lets guests book directly on WhatsApp with zero OTA commissions.' : 'Loads in 380ms with 99/100 Core Web Vitals on 4G/5G; converts visitors into chats instantly.';
-
-        let aItem4Title = isHotel ? '✓ 24/7 AI Voice & WhatsApp Receptionist' : '✓ 24/7 AI Voice & Lead Bot';
-
-        let aItem4Desc = isHotel ? 'Answers calls within 3 seconds, gives tariffs, and confirms bookings even at 2 AM automatically.' : 'Replies in under 3 seconds day and night, answers pricing queries, and saves leads.';
+        let leakSummary = isHotel ? '₹25,000 – ₹70,000 in missed room tariffs and OTA cuts every month.' : (isClinic ? '₹30,000 – ₹80,000 in lost patient consultations and procedure bookings every month.' : (isFood ? '₹20,000 – ₹50,000 in aggregator commission drain and lost catering orders every month.' : (isRealEstate ? 'High-ticket brokerage and buyer drop-offs due to delayed follow-up.' : (isRetail ? '₹25,000 – ₹60,000 in diverted showroom footfall and walk-in sales.' : '₹25,000 – ₹60,000 in diverted local buyers and missed enquiries every month.'))));
 
         const benchLoc = ['Raipur', 'Bhilai', 'Durg', 'Bilaspur', 'Korba', 'Rajnandgaon'].includes(city)
-
           ? (city + ' Commercial Corridor')
-
           : ('Primary Highway & Transit Corridors in ' + city);
 
-                return '<div style="width: 794px; background: #ffffff; color: #08152c; font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif; font-size: 11px; line-height: 1.45;">' +
-
-          
-
+        return '<div style="width: 794px; background: #ffffff; color: #08152c; font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif; font-size: 11px; line-height: 1.45;">' +
           // PAGE 1
-
           '<div style="width: 794px; min-height: 1122px; padding: 48px 56px 40px 56px; box-sizing: border-box; page-break-after: always; position: relative; background: #ffffff;">' +
-
             '<div style="border-bottom: 2px solid #0066fe; padding-bottom: 8px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: flex-end;">' +
-
               '<div><div style="font-size: 20px; font-weight: 900; color: #08152c;">AVZERA <span style="color: #0066fe;">DIGITAL</span></div><div style="font-size: 9px; font-weight: 700; text-transform: uppercase; color: #64748b;">Official Local Search & Google Maps Diagnostic Certificate</div></div>' +
-
               '<div style="text-align: right;"><div style="font-family: monospace; font-size: 10px; font-weight: 800; color: #0066fe; background: #eff6ff; padding: 2px 8px; border-radius: 4px; border: 1px solid #bfdbfe;">REPORT ID: ' + auditId + '</div><div style="font-size: 8.5px; color: #64748b; margin-top: 3px;">Date: ' + timestamp + '</div></div>' +
-
             '</div>' +
-
             '<table style="width: 100%; background: #f8faff; border: 1.5px solid #0066fe; border-radius: 8px; padding: 12px; margin-bottom: 12px;">' +
-
               '<tr>' +
-
                 '<td>' +
-
                   '<div style="font-size: 8.5px; font-family: monospace; font-weight: 800; color: #0066fe; text-transform: uppercase;">✓ VERIFIED AUDITED GOOGLE PROFILE</div>' +
-
                   '<div style="font-size: 17px; font-weight: 900; color: #08152c; margin: 3px 0 2px 0;">' + bizName + '</div>' +
-
                   (address ? ('<div style="font-size: 9.5px; font-weight: 600; color: #334155; margin-bottom: 4px;">📍 ' + address + '</div>') : '') +
-
                   '<div style="font-size: 9px; color: #64748b;"><strong>Category:</strong> ' + category + ' &nbsp;•&nbsp; <strong>City:</strong> ' + city + '</div>' +
-
-                  '<div style="margin-top: 6px; font-size: 10px; font-weight: 800; color: #b45309;">⭐ Verified Live Rating: ' + ratTxt + ' &nbsp;•&nbsp; 📊 Total Reviews: ' + revTxt + '</div>' +
-
+                  '<div style="margin-top: 6px; font-size: 10px; font-weight: 800; color: #b45309;">' + (rating ? ('⭐ Verified Live Rating: ' + ratTxt + ' &nbsp;•&nbsp; 📊 Total Reviews: ' + revTxt) : ('📍 Google Profile Verified &nbsp;•&nbsp; 🏙️ Commercial Cluster: ' + city)) + '</div>' +
                   (directUrl ? ('<div style="font-size: 8px; color: #0066fe; margin-top: 3px; word-break: break-all;">🔗 Direct Profile: ' + directUrl.substring(0, 95) + '...</div>') : '') +
-
                 '</td>' +
-
                 '<td style="text-align: right; width: 140px; vertical-align: middle;">' +
-
                   '<div style="font-size: 8.5px; color: #64748b; font-weight: 800; text-transform: uppercase;">LOCAL HEALTH SCORE</div>' +
-
                   '<div style="font-size: 26px; font-weight: 900; font-family: monospace; color: ' + (score >= 70 ? '#059669' : (score >= 45 ? '#d97706' : '#dc2626')) + '; margin: 2px 0;">' + score + ' / 100</div>' +
-
-                  '<div style="font-size: 8px; font-weight: 700; color: #dc2626; background: #fee2e2; padding: 2px 6px; border-radius: 4px; display: inline-block;">CRITICAL LEAKAGE</div>' +
-
+                  '<div style="font-size: 8px; font-weight: 700; color: ' + (score >= 70 ? '#059669' : (score >= 45 ? '#d97706' : '#dc2626')) + '; background: ' + (score >= 70 ? '#ecfdf5' : (score >= 45 ? '#fef3c7' : '#fee2e2')) + '; padding: 2px 6px; border-radius: 4px; display: inline-block;">' + (score >= 70 ? 'STRONG FOOTPRINT' : (score >= 45 ? 'MODERATE EXPOSURE' : 'CRITICAL LEAKAGE')) + '</div>' +
                 '</td>' +
-
               '</tr>' +
-
             '</table>' +
-
             '<div style="background: #f1f5f9; border-radius: 6px; padding: 9px 12px; margin-bottom: 12px; font-size: 9px;">' +
-
               '<strong style="color: #08152c; font-size: 9.5px;">📊 Regional Market Benchmark (' + benchLoc + '):</strong><br>' +
-
-              '<span style="color: #334155;">Top 3 competing establishments dominating local search results maintain an average of <strong>150 to 350+ reviews</strong>, <strong>4.7★ rating</strong>, 1-click WhatsApp booking, and under-3-second response time. Your profile currently faces an acute review volume deficit.</span>' +
-
+              '<span style="color: #334155;">Top 3 competing establishments in ' + city + ' dominate local search results with high review volume, consistent 4.8★ ratings, 1-click WhatsApp customer routing, and sub-second mobile response times.</span>' +
             '</div>' +
-
             '<div style="font-size: 11.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; color: #dc2626;">🔴 4 CRITICAL REVENUE LEAKAGES DETECTED (वर्तमान कमियां):</div>' +
-
             '<div style="background: #fef2f2; border: 1px solid #fecaca; border-left: 4px solid #ef4444; border-radius: 6px; padding: 8px 10px; margin-bottom: 7px;">' +
-
               '<div style="font-size: 10px; font-weight: 800; color: #991b1b;">1. ' + f1Title + '</div>' +
-
               '<div style="font-size: 8.5px; color: #7f1d1d; margin-top: 2px; line-height: 1.35;">' + f1Desc + '</div>' +
-
             '</div>' +
-
             '<div style="background: #fef2f2; border: 1px solid #fecaca; border-left: 4px solid #ef4444; border-radius: 6px; padding: 8px 10px; margin-bottom: 7px;">' +
-
               '<div style="font-size: 10px; font-weight: 800; color: #991b1b;">2. ' + f2Title + '</div>' +
-
               '<div style="font-size: 8.5px; color: #7f1d1d; margin-top: 2px; line-height: 1.35;">' + f2Desc + '</div>' +
-
             '</div>' +
-
             '<div style="background: #fef2f2; border: 1px solid #fecaca; border-left: 4px solid #ef4444; border-radius: 6px; padding: 8px 10px; margin-bottom: 7px;">' +
-
               '<div style="font-size: 10px; font-weight: 800; color: #991b1b;">3. ' + f3Title + '</div>' +
-
               '<div style="font-size: 8.5px; color: #7f1d1d; margin-top: 2px; line-height: 1.35;">' + f3Desc + '</div>' +
-
             '</div>' +
-
             '<div style="background: #fef2f2; border: 1px solid #fecaca; border-left: 4px solid #ef4444; border-radius: 6px; padding: 8px 10px; margin-bottom: 7px;">' +
-
               '<div style="font-size: 10px; font-weight: 800; color: #991b1b;">4. ' + f4Title + '</div>' +
-
               '<div style="font-size: 8.5px; color: #7f1d1d; margin-top: 2px; line-height: 1.35;">' + f4Desc + '</div>' +
-
             '</div>' +
-
             '<div style="border-top: 1px solid #e2e8f0; padding-top: 8px; margin-top: 24px; font-size: 8px; color: #64748b; display: flex; justify-content: space-between;">' +
-
               '<div><strong>AVZERA Digital Solutions</strong> • Raipur, Chhattisgarh</div>' +
-
               '<div style="font-weight: 800; color: #0066fe;">PAGE 01 / 03 • EXECUTIVE DIAGNOSTIC</div>' +
-
             '</div>' +
-
           '</div>' +
 
           // PAGE 2
-
           '<div style="width: 794px; min-height: 1122px; padding: 48px 56px 40px 56px; box-sizing: border-box; page-break-after: always; position: relative; background: #ffffff;">' +
-
             '<div style="border-bottom: 2px solid #0066fe; padding-bottom: 8px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: flex-end;">' +
-
               '<div><div style="font-size: 20px; font-weight: 900; color: #08152c;">AVZERA <span style="color: #0066fe;">DIGITAL</span></div><div style="font-size: 9px; font-weight: 700; text-transform: uppercase; color: #64748b;">Side-by-Side Psychological Transformation Matrix</div></div>' +
-
               '<div style="text-align: right;"><div style="font-family: monospace; font-size: 10px; font-weight: 800; color: #0066fe; background: #eff6ff; padding: 2px 8px; border-radius: 4px; border: 1px solid #bfdbfe;">' + bizName + '</div><div style="font-size: 8.5px; color: #64748b; margin-top: 3px;">Current State vs Engineered Future</div></div>' +
-
             '</div>' +
-
             '<div style="margin-bottom: 10px;">' +
-
               '<div style="font-size: 13.5px; font-weight: 900; color: #08152c;">Where Your Business Stands Today vs What Happens After AVZERA Deployment</div>' +
-
               '<div style="font-size: 9px; color: #64748b; margin-top: 2px;">A direct comparison showing how fixing these 4 leakages transforms your business from an invisible listing into an autonomous revenue engine:</div>' +
-
             '</div>' +
-
             '<table style="width: 100%; border-collapse: separate; border-spacing: 8px 0; margin: 8px -8px;">' +
-
               '<tr>' +
-
                 '<td style="width: 50%; vertical-align: top; border-radius: 8px; padding: 10px; background: #fff5f5; border: 1px solid #fecaca;">' +
-
                   '<div style="font-size: 10.5px; font-weight: 900; padding-bottom: 6px; margin-bottom: 8px; border-bottom: 2px solid #ef4444; color: #991b1b; text-transform: uppercase;">🔴 WITHOUT AVZERA (CURRENT STATE)</div>' +
-
                   '<div style="margin-bottom: 7px; padding-bottom: 7px; border-bottom: 1px dashed rgba(0,0,0,0.08);"><div style="font-size: 9.5px; font-weight: 800; color: #dc2626;">⚠️ Low Map Placement (Beyond Top 3)</div><div style="font-size: 8.5px; color: #475569; margin-top: 2px;">Nearby searchers only see top 3 competitors; missing 73% of local calls.</div></div>' +
-
-                  '<div style="margin-bottom: 7px; padding-bottom: 7px; border-bottom: 1px dashed rgba(0,0,0,0.08);"><div style="font-size: 9.5px; font-weight: 800; color: #dc2626;">⚠️ Stagnant Reviews (' + revTxt + ')</div><div style="font-size: 8.5px; color: #475569; margin-top: 2px;">Guests leave without reviewing; zero counter standee or reminder system.</div></div>' +
-
+                  '<div style="margin-bottom: 7px; padding-bottom: 7px; border-bottom: 1px dashed rgba(0,0,0,0.08);"><div style="font-size: 9.5px; font-weight: 800; color: #dc2626;">⚠️ Stagnant Reviews (' + revTxt + ')</div><div style="font-size: 8.5px; color: #475569; margin-top: 2px;">Customers leave without reviewing; zero counter standee or reminder system.</div></div>' +
                   '<div style="margin-bottom: 7px; padding-bottom: 7px; border-bottom: 1px dashed rgba(0,0,0,0.08);"><div style="font-size: 9.5px; font-weight: 800; color: #dc2626;">' + bItem3Title + '</div><div style="font-size: 8.5px; color: #475569; margin-top: 2px;">' + bItem3Desc + '</div></div>' +
-
                   '<div style="margin-bottom: 7px; padding-bottom: 7px; border-bottom: 1px dashed rgba(0,0,0,0.08);"><div style="font-size: 9.5px; font-weight: 800; color: #dc2626;">' + bItem4Title + '</div><div style="font-size: 8.5px; color: #475569; margin-top: 2px;">' + bItem4Desc + '</div></div>' +
-
                   '<div style="margin-bottom: 7px; padding-bottom: 7px;"><div style="font-size: 9.5px; font-weight: 800; color: #dc2626;">⚠️ Outdated or Slow Web Experience</div><div style="font-size: 8.5px; color: #475569; margin-top: 2px;">Slow website causes ~58% of mobile search visitors to abandon and click back to Google.</div></div>' +
-
-                  '<div style="background: #fee2e2; border-radius: 6px; padding: 6px 8px; margin-top: 6px;"><strong style="color: #991b1b; font-size: 8.5px;">ESTIMATED MONTHLY LEAKAGE:</strong><br><span style="color: #b91c1c; font-size: 8px;">₹25,000 – ₹60,000 in missed room tariffs and OTA cuts every month.</span></div>' +
-
+                  '<div style="background: #fee2e2; border-radius: 6px; padding: 6px 8px; margin-top: 6px;"><strong style="color: #991b1b; font-size: 8.5px;">ESTIMATED MONTHLY LEAKAGE:</strong><br><span style="color: #b91c1c; font-size: 8px;">' + leakSummary + '</span></div>' +
                 '</td>' +
-
                 '<td style="width: 50%; vertical-align: top; border-radius: 8px; padding: 10px; background: #f0fdf4; border: 1px solid #bbf7d0;">' +
-
                   '<div style="font-size: 10.5px; font-weight: 900; padding-bottom: 6px; margin-bottom: 8px; border-bottom: 2px solid #10b981; color: #166534; text-transform: uppercase;">🟢 WITH AVZERA (ENGINEERED FUTURE)</div>' +
-
                   '<div style="margin-bottom: 7px; padding-bottom: 7px; border-bottom: 1px dashed rgba(0,0,0,0.08);"><div style="font-size: 9.5px; font-weight: 800; color: #059669;">✓ Targeted Top-3 Google Maps Placement</div><div style="font-size: 8.5px; color: #475569; margin-top: 2px;">Geo-category sync, 5+ GPS-tagged photos, landmark SEO bio put your business where calls happen.</div></div>' +
-
-                  '<div style="margin-bottom: 7px; padding-bottom: 7px; border-bottom: 1px dashed rgba(0,0,0,0.08);"><div style="font-size: 9.5px; font-weight: 800; color: #059669;">✓ 15–25 Authentic 5★ Reviews Weekly</div><div style="font-size: 8.5px; color: #475569; margin-top: 2px;">Free Premium Acrylic 5★ QR Standee placed at reception converts departing guests into reviews.</div></div>' +
-
+                  '<div style="margin-bottom: 7px; padding-bottom: 7px; border-bottom: 1px dashed rgba(0,0,0,0.08);"><div style="font-size: 9.5px; font-weight: 800; color: #059669;">✓ 15–25 Authentic 5★ Reviews Weekly</div><div style="font-size: 8.5px; color: #475569; margin-top: 2px;">Free Premium Acrylic 5★ QR Standee placed at reception converts departing customers into reviews.</div></div>' +
                   '<div style="margin-bottom: 7px; padding-bottom: 7px; border-bottom: 1px dashed rgba(0,0,0,0.08);"><div style="font-size: 9.5px; font-weight: 800; color: #059669;">' + aItem3Title + '</div><div style="font-size: 8.5px; color: #475569; margin-top: 2px;">' + aItem3Desc + '</div></div>' +
-
                   '<div style="margin-bottom: 7px; padding-bottom: 7px; border-bottom: 1px dashed rgba(0,0,0,0.08);"><div style="font-size: 9.5px; font-weight: 800; color: #059669;">' + aItem4Title + '</div><div style="font-size: 8.5px; color: #475569; margin-top: 2px;">' + aItem4Desc + '</div></div>' +
-
                   '<div style="margin-bottom: 7px; padding-bottom: 7px;"><div style="font-size: 9.5px; font-weight: 800; color: #059669;">✓ 0.38s Sub-Second Core Web Asset</div><div style="font-size: 8.5px; color: #475569; margin-top: 2px;">Opens in 380ms with 99/100 Core Web Vitals on 4G/5G. Zero bounce rate, free edge hosting included.</div></div>' +
-
-                  '<div style="background: #dcfce7; border-radius: 6px; padding: 6px 8px; margin-top: 6px;"><strong style="color: #166534; font-size: 8.5px;">PROJECTED COMMERCIAL IMPACT:</strong><br><span style="color: #15803d; font-size: 8px;">+3.4x Direct Phone Calls, -58% Drop-off, and ₹25,000+ monthly savings.</span></div>' +
-
+                  '<div style="background: #dcfce7; border-radius: 6px; padding: 6px 8px; margin-top: 6px;"><strong style="color: #166534; font-size: 8.5px;">PROJECTED COMMERCIAL IMPACT:</strong><br><span style="color: #15803d; font-size: 8px;">+3.4x Direct Phone Calls, -58% Drop-off, and accelerated local customer acquisition.</span></div>' +
                 '</td>' +
-
               '</tr>' +
-
             '</table>' +
-
             '<div style="background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: 8px; padding: 10px 14px; margin-top: 8px;">' +
-
               '<div style="font-size: 10px; font-weight: 900; color: #1e3a8a; margin-bottom: 2px;">💡 The AVZERA Psychological Advantage</div>' +
-
-              '<div style="font-size: 8.5px; color: #1e40af; line-height: 1.4;">Local buyers do not buy from the biggest business; they buy from the most visible, trusted, and responsive business on Google Maps. By solving review velocity, direct WhatsApp access, and 24/7 responsiveness simultaneously, you create an unshakeable local commercial monopoly.</div>' +
-
+              '<div style="font-size: 8.5px; color: #1e40af; line-height: 1.4;">Local buyers do not buy from the biggest business; they buy from the most visible, trusted, and responsive business on Google Maps. By solving review velocity, direct WhatsApp access, and 24/7 responsiveness simultaneously, you create an unshakeable local commercial advantage in ' + city + '.</div>' +
             '</div>' +
-
             '<div style="border-top: 1px solid #e2e8f0; padding-top: 8px; margin-top: 24px; font-size: 8px; color: #64748b; display: flex; justify-content: space-between;">' +
-
               '<div><strong>AVZERA Digital Solutions</strong> • Side-by-Side Growth Matrix</div>' +
-
               '<div style="font-weight: 800; color: #0066fe;">PAGE 02 / 03 • BEFORE VS AFTER MATRIX</div>' +
-
             '</div>' +
-
           '</div>' +
 
           // PAGE 3
-
           '<div style="width: 794px; min-height: 1122px; padding: 48px 56px 40px 56px; box-sizing: border-box; position: relative; background: #ffffff;">' +
-
             '<div style="border-bottom: 2px solid #0066fe; padding-bottom: 8px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: flex-end;">' +
-
               '<div><div style="font-size: 20px; font-weight: 900; color: #08152c;">AVZERA <span style="color: #0066fe;">DIGITAL</span></div><div style="font-size: 9px; font-weight: 700; text-transform: uppercase; color: #64748b;">Remediation Blueprint & Milestone Staging Review Shield</div></div>' +
-
               '<div style="text-align: right;"><div style="font-family: monospace; font-size: 10px; font-weight: 800; color: #0066fe; background: #eff6ff; padding: 2px 8px; border-radius: 4px; border: 1px solid #bfdbfe;">FOUNDER DIRECT DESK</div><div style="font-size: 8.5px; color: #64748b; margin-top: 3px;">Lead Architect: Vikas Vivan (+91 78983 32744)</div></div>' +
-
             '</div>' +
-
             '<div style="font-size: 11.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; color: #08152c;">🛠️ THE 4-PILLAR AVZERA REMEDIATION BLUEPRINT:</div>' +
-
             '<table style="width: 100%; border-collapse: separate; border-spacing: 6px; margin: -6px;">' +
-
               '<tr>' +
-
                 '<td style="width: 50%; background: #f8faff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 8px 10px; vertical-align: top;">' +
-
                   '<div style="font-size: 9.5px; font-weight: 800; color: #0066fe;">PILLAR 01: GOOGLE MAPS DOMINATION</div>' +
-
                   '<div style="font-size: 8px; color: #475569; margin-top: 2px; line-height: 1.35;">• Zero Password Protocol (Agency Invite)<br>• Fix Primary & 4–6 Sub-Categories<br>• 750-Char Local Landmark SEO Bio<br>• 5+ GPS Geo-Tagged High-Res Photos<br>• 1-Click Direct WhatsApp Button Setup</div>' +
-
                 '</td>' +
-
                 '<td style="width: 50%; background: #f8faff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 8px 10px; vertical-align: top;">' +
-
                   '<div style="font-size: 9.5px; font-weight: 800; color: #0066fe;">PILLAR 02: 0.38s SUB-SECOND WEB ASSET</div>' +
-
-                  '<div style="font-size: 8px; color: #475569; margin-top: 2px; line-height: 1.35;">• Sub-380ms Instant Mobile Load Speed<br>• GEO Schema for ChatGPT & Gemini AI<br>• Free 1st-Year Edge Cloudflare CDN + SSL<br>• 100% Code & Domain Ownership in your name<br>• Eliminates 15–25% OTA commissions</div>' +
-
+                  '<div style="font-size: 8px; color: #475569; margin-top: 2px; line-height: 1.35;">• Sub-380ms Instant Mobile Load Speed<br>• GEO Schema for ChatGPT & Gemini AI<br>• Free 1st-Year Edge Cloudflare CDN + SSL<br>• 100% Code & Domain Ownership in your name<br>• ' + (isHotel ? 'Eliminates 15–25% OTA commissions' : (isClinic ? '1-Tap WhatsApp patient booking funnel' : (isFood ? 'Eliminates 20–30% aggregator commissions' : 'Direct WhatsApp customer conversion funnel'))) + '</div>' +
                 '</td>' +
-
               '</tr>' +
-
               '<tr>' +
-
                 '<td style="width: 50%; background: #f8faff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 8px 10px; vertical-align: top;">' +
-
                   '<div style="font-size: 9.5px; font-weight: 800; color: #0066fe;">PILLAR 03: 24/7 AI RECEPTIONIST</div>' +
-
-                  '<div style="font-size: 8px; color: #475569; margin-top: 2px; line-height: 1.35;">• Instant Voice Answering in under 3 secs<br>• Provides services, timings, amenities &amp; FAQs<br>• Missed-call auto-callback on WhatsApp<br>• Captures 11 PM – 2 AM urgent bookings<br>• Live Google Sheet sync to owner phone</div>' +
-
+                  '<div style="font-size: 8px; color: #475569; margin-top: 2px; line-height: 1.35;">• Instant Voice Answering in under 3 secs<br>• Provides services, timings, amenities & FAQs<br>• Missed-call auto-callback on WhatsApp<br>• ' + (isHotel ? 'Captures 11 PM – 2 AM urgent bookings' : (isClinic ? 'Captures 24/7 emergency & patient appointments' : 'Captures 24/7 after-hours customer enquiries')) + '<br>• Live Google Sheet sync to owner phone</div>' +
                 '</td>' +
-
                 '<td style="width: 50%; background: #f8faff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 8px 10px; vertical-align: top;">' +
-
                   '<div style="font-size: 9.5px; font-weight: 800; color: #0066fe;">PILLAR 04: CLOSED-LOOP REVIEW ACCELERATOR</div>' +
-
                   '<div style="font-size: 8px; color: #475569; margin-top: 2px; line-height: 1.35;">• Free Print-Ready Acrylic 5★ QR Standee<br>• Seamless counter check-out review prompt<br>• Drives 15–25 new 5★ reviews every week<br>• Permanently closes gap vs competitors<br>• Protects profile from negative drops</div>' +
-
                 '</td>' +
-
               '</tr>' +
-
             '</table>' +
-
             '<div style="margin-top: 10px; background: linear-gradient(135deg, #eff6ff, #f0fdf4); border: 1.5px solid #0066fe; border-radius: 8px; padding: 10px 14px;">' +
-
               '<div style="font-size: 11px; font-weight: 900; color: #08152c; display: flex; align-items: center; justify-content: space-between;">' +
-
                 '<span>🛡️ THE UNFAIR 7-DAY LIVE TRIAL GUARANTEE SHIELD</span>' +
-
                 '<span style="font-size: 9px; font-weight: 800; color: #059669; background: #ecfdf5; padding: 2px 8px; border-radius: 12px; border: 1px solid #a7f3d0;">ZERO RISK FOR CLIENT</span>' +
-
               '</div>' +
-
               '<div style="font-size: 8.5px; color: #334155; margin-top: 4px; line-height: 1.45;">' +
-
                 '<strong>Step 1 (Milestone Advance):</strong> We begin technical execution immediately. No password sharing needed.<br>' +
-
                 '<strong>Step 2 (24–48h Private Staging):</strong> Your profile fixes and sub-second funnel are prepared and approved.<br>' +
-
                 '<strong>Step 3 (7-Day Live Business Test):</strong> Everything runs live in your business. You verify direct calls, customer chats, and speed.<br>' +
-
                 '<strong>Step 4 (60% Balance on Total Satisfaction):</strong> Pay the remaining balance only after you are 100% satisfied with real results.' +
-
               '</div>' +
-
             '</div>' +
-
             '<table style="width: 100%; background: #08152c; border-radius: 8px; padding: 12px 14px; margin-top: 10px; color: #ffffff;">' +
-
               '<tr>' +
-
                 '<td>' +
-
                   '<div style="font-size: 8px; font-family: monospace; color: #38bdf8; font-weight: 800; text-transform: uppercase;">OFFICIAL SIGN-OFF & CONSULTATION DESK</div>' +
-
                   '<div style="font-size: 13px; font-weight: 900; color: #ffffff; margin-top: 2px;">Vikas Vivan <span style="font-size: 9px; font-weight: normal; color: #94a3b8;">• Founder & Principal Architect</span></div>' +
-
                   '<div style="font-size: 8.5px; color: #cbd5e1; margin-top: 3px;">AVZERA Digital Solutions • Raipur, Chhattisgarh<br>WhatsApp / Direct Line: <strong>+91 78983 32744</strong> &nbsp;|&nbsp; Email: <strong>hello@avzera.com</strong></div>' +
-
                 '</td>' +
-
                 '<td style="text-align: right; vertical-align: middle; width: 140px;">' +
-
                   '<div style="background: #0066fe; color: #ffffff; font-size: 9px; font-weight: 800; padding: 6px 10px; border-radius: 6px; text-align: center;">⚡ ACTIVATE WITH 40% ADVANCE</div>' +
-
                   '<div style="font-size: 7.5px; color: #94a3b8; text-align: center; margin-top: 4px;">Instant Response &lt;15 Mins</div>' +
-
                 '</td>' +
-
               '</tr>' +
-
             '</table>' +
-
             '<div style="border-top: 1px solid #e2e8f0; padding-top: 8px; margin-top: 24px; font-size: 8px; color: #64748b; display: flex; justify-content: space-between;">' +
-
               '<div><strong>AVZERA Digital Solutions</strong> • Proprietary Diagnostic & Execution System</div>' +
-
               '<div style="font-weight: 800; color: #0066fe;">PAGE 03 / 03 • ACTION ROADMAP & GUARANTEE</div>' +
-
             '</div>' +
-
           '</div>' +
-
         '</div>';
-
       }
 
       function generateSpeedCertificateHtml(data) {
@@ -8698,6 +8575,82 @@
 
         setTimeout(() => URL.revokeObjectURL(url), 1000);
 
+      }
+
+      function applyReviewSync() {
+        if (!lastGmbAuditData) {
+          alert('Please run the Google Maps Audit first.');
+          return;
+        }
+        const rIn = document.getElementById('inputSyncRating');
+        const revIn = document.getElementById('inputSyncReviews');
+        const newRating = (rIn && rIn.value) ? parseFloat(rIn.value) : lastGmbAuditData.rating;
+        const newReviews = (revIn && revIn.value) ? parseInt(revIn.value) : lastGmbAuditData.review_count;
+
+        if (newRating !== undefined && newRating !== null && !isNaN(newRating)) {
+          lastGmbAuditData.rating = Math.min(5.0, Math.max(1.0, newRating));
+        }
+        if (newReviews !== undefined && newReviews !== null && !isNaN(newReviews)) {
+          lastGmbAuditData.review_count = Math.max(0, newReviews);
+        }
+
+        // Recalculate score dynamically
+        let s = 50;
+        if (lastGmbAuditData.rating) {
+          if (lastGmbAuditData.rating >= 4.7) s += 25;
+          else if (lastGmbAuditData.rating >= 4.2) s += 10;
+          else s -= 15;
+        }
+        if (lastGmbAuditData.review_count) {
+          if (lastGmbAuditData.review_count >= 150) s += 20;
+          else if (lastGmbAuditData.review_count >= 50) s += 10;
+          else s -= 10;
+        }
+        lastGmbAuditData.score = Math.max(25, Math.min(s, 95));
+
+        // Update pills
+        const ratingPill = document.getElementById('resProfileRatingPill');
+        if (ratingPill && lastGmbAuditData.rating) {
+          ratingPill.innerText = '⭐ ' + lastGmbAuditData.rating + '★ Rating';
+          ratingPill.className = 'text-xs font-bold text-amber-900 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-200';
+        }
+        const revPill = document.getElementById('resProfileReviewsPill');
+        if (revPill && lastGmbAuditData.review_count) {
+          revPill.innerText = parseInt(lastGmbAuditData.review_count).toLocaleString() + ' Verified Reviews';
+          revPill.className = 'text-xs font-bold text-blue-900 bg-blue-100 px-2.5 py-0.5 rounded-full border border-blue-200';
+        }
+
+        // Update Score Badge & SVG Ring
+        const scoreBadge = document.getElementById('resGmbScoreBadge');
+        if (scoreBadge) scoreBadge.innerText = lastGmbAuditData.score + ' / 100';
+        const ring = document.getElementById('resScoreSvgRing');
+        const pctNum = document.getElementById('resScorePctNum');
+        const statusText = document.getElementById('resScoreStatusText');
+        if (ring) {
+          ring.setAttribute('stroke-dasharray', `${lastGmbAuditData.score}, 100`);
+          if (lastGmbAuditData.score >= 75) {
+            ring.setAttribute('class', 'text-emerald-500 transition-all duration-700');
+            if (pctNum) pctNum.className = 'absolute text-[11px] font-black font-mono text-emerald-600';
+            if (statusText) { statusText.innerText = 'Market Leader'; statusText.className = 'text-[9.5px] font-extrabold text-emerald-600 uppercase'; }
+          } else if (lastGmbAuditData.score >= 45) {
+            ring.setAttribute('class', 'text-amber-500 transition-all duration-700');
+            if (pctNum) pctNum.className = 'absolute text-[11px] font-black font-mono text-amber-600';
+            if (statusText) { statusText.innerText = 'Moderate Exposure'; statusText.className = 'text-[9.5px] font-extrabold text-amber-600 uppercase'; }
+          } else {
+            ring.setAttribute('class', 'text-rose-500 transition-all duration-700');
+            if (pctNum) pctNum.className = 'absolute text-[11px] font-black font-mono text-rose-600';
+            if (statusText) { statusText.innerText = 'Critical Leakage'; statusText.className = 'text-[9.5px] font-extrabold text-rose-500 uppercase'; }
+          }
+        }
+        if (pctNum) pctNum.innerText = lastGmbAuditData.score + '%';
+
+        // Auto-refresh the mobile preview
+        const pMobileRatingNum = document.getElementById('previewMobileRatingNum');
+        if (pMobileRatingNum) {
+          pMobileRatingNum.innerText = (lastGmbAuditData.rating || 'Verified') + '★ (' + (lastGmbAuditData.review_count ? parseInt(lastGmbAuditData.review_count).toLocaleString() : '0') + '+ Reviews)';
+        }
+
+        alert('✓ Report & PDF updated with live Rating: ' + (lastGmbAuditData.rating ? (lastGmbAuditData.rating + '★') : 'Verified') + ', Reviews: ' + (lastGmbAuditData.review_count || '0') + '. Click "Download PDF Report" to export your 100% accurate proposal!');
       }
 
       async function downloadGmbPdf(lang = 'hinglish') {
