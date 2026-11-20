@@ -7000,7 +7000,7 @@
 
       let lastSpeedAuditData = null;
 
-      const API_BASE = (window.location.protocol === 'file:' || !window.location.port) ? 'http://127.0.0.1:8000' : '';
+      const API_BASE = (window.location.protocol === 'file:') ? 'http://127.0.0.1:8000' : '';
 
       function setThemeMode(mode) {
 
@@ -7285,264 +7285,14 @@
 
         }
 
-        // Reliable fallback if server unreachable
-
         if (!resData || !resData.success) {
-
-          let fallbackName = mapsLink;
-
-          if (mapsLink.includes('8xKeBtoxPWJDF1HM6') || mapsLink.toLowerCase().includes('apex')) {
-
-            fallbackName = 'Apex Dental Care';
-
-          } else if (mapsLink.startsWith('http')) {
-
-            const m = mapsLink.match(/place\/([^/@?]+)/);
-
-            fallbackName = m ? decodeURIComponent(m[1].replace(/\+/g, ' ')) : 'Your Business';
-
+          if (btn) {
+            btn.innerHTML = origBtnText;
+            btn.disabled = false;
           }
-
-          fallbackName = fallbackName.replace(/\s+/g, ' ').replace(/ - Google Maps$/i, '').trim();
-
-          const fLower = fallbackName.toLowerCase();
-
-          const indianCities = ['Renukoot', 'Sonbhadra', 'Raipur', 'Bhilai', 'Durg', 'Bilaspur', 'Korba', 'Rajnandgaon', 
-
-            'Mumbai', 'Delhi', 'New Delhi', 'Bengaluru', 'Bangalore', 'Hyderabad', 'Chennai', 'Kolkata', 'Pune', 'Ahmedabad', 
-
-            'Jaipur', 'Lucknow', 'Kanpur', 'Nagpur', 'Indore', 'Bhopal', 'Patna', 'Vadodara', 'Ghaziabad', 'Ludhiana', 
-
-            'Agra', 'Nashik', 'Faridabad', 'Meerut', 'Rajkot', 'Varanasi', 'Srinagar', 'Aurangabad', 'Dhanbad', 'Amritsar', 
-
-            'Navi Mumbai', 'Allahabad', 'Prayagraj', 'Ranchi', 'Howrah', 'Coimbatore', 'Jabalpur', 'Gwalior', 'Vijayawada', 
-
-            'Jodhpur', 'Noida', 'Dehradun', 'Gorakhpur', 'Udaipur', 'Kota', 'Surat', 'Gaya', 'Ambikapur', 'Jagdalpur'];
-
-          let fCity = '';
-
-          const searchHaystack = (fallbackName + ' ' + mapsLink).toLowerCase();
-
-          for (let ct of indianCities) {
-
-            if (searchHaystack.includes(ct.toLowerCase())) {
-
-              fCity = ct;
-
-              break;
-
-            }
-
-          }
-
-          if (!fCity) fCity = 'Local Market';
-
-          // Intelligent Sector Classifier
-
-          const hotelKw = ['hotel', 'resort', 'motel', 'stay', 'inn', 'lodge', 'lodging', 'homestay', 'guest house', 'suites', 'palace'];
-
-          const resKw = ['apartment', 'apartments', 'residency', 'heights', 'enclave', 'villa', 'villas', 'township', 'colony', 'flats', 'flat', 'housing', 'property', 'properties', 'builder', 'builders', 'developer', 'developers', 'estate', 'real estate', 'residential', 'greens', 'paradise', 'nest', 'towers', 'tower', 'homes', 'bellagio', 'wallfort', 'avinash', 'raheja', 'shriram', 'orchid', 'pride', 'society', 'complex', 'palms', 'city'];
-
-          const medKw = ['dental', 'dentist', 'teeth', 'clinic', 'hospital', 'health', 'physio', 'pathology', 'derma', 'skin', 'eye', 'ortho', 'pediatric', 'ayurveda', 'homeopathy', 'diagnostics', 'doctor', 'dr.', 'dr '];
-
-          const foodKw = ['cafe', 'coffee', 'restaurant', 'dhaba', 'bistro', 'bakery', 'food', 'dining', 'kitchen', 'pizzeria', 'pizza', 'burger', 'sweets', 'sweet', 'biryani', 'lounge', 'bar', 'caterers', 'chai'];
-
-          const retailKw = ['tile', 'tiles', 'marble', 'sanitary', 'jewel', 'jewellers', 'cloth', 'textile', 'saree', 'fashion', 'furniture', 'electronics', 'mobile', 'optics', 'hardware', 'auto', 'showroom', 'motors', 'cars', 'footwear', 'store', 'mall', 'mart'];
-
-          let fCategory = 'Local Commercial Establishment';
-
-          let fGaps = [];
-
-          let fStrengths = [];
-
-          let fScore = 38;
-
-          if (hotelKw.some(k => fLower.includes(k))) {
-
-            fCategory = 'Hotel, Resort & Hospitality Stay';
-
-            fScore = 48;
-
-            fGaps = [
-
-              { title: 'Critical Star Rating Drag (Below 4.0★ Filter Threshold)', desc: 'Over 68% of travelers on Google Maps filter stays with 4.0★ and above. Profiles below 4.0★ lose majority of premium bookings.' },
-
-              { title: 'Zero Billing & Reception Counter 5★ Review QR Standee', desc: 'Over 90% of satisfied overnight guests check out without writing a review because reception lacks a 1-tap QR standee.' },
-
-              { title: 'High OTA Commission Leakage (15% to 25% Lost to MakeMyTrip/Goibibo)', desc: 'Lacks a direct WhatsApp 0.38s room reservation funnel, forcing guests into aggregators and losing high commission margins.' },
-
-              { title: 'Unanswered Late-Night Room Availability Calls (11 PM – 2 AM)', desc: 'Urgent highway and train travelers call for check-in; unanswered calls bounce 100% of bookings to nearby hotels.' }
-
-            ];
-
-            fStrengths = [
-
-              'Verified hospitality presence registered in ' + fCity + '.',
-
-              'High organic search discovery potential on Google Maps Hotel Pack.'
-
-            ];
-
-          } else if (resKw.some(k => fLower.includes(k))) {
-
-            fCategory = 'Residential Housing, Apartment Complex & Real Estate';
-
-            fScore = 42;
-
-            fGaps = [
-
-              { title: 'Missing Verified Gate Navigation & Geo-Tagged Amenities Photos', desc: 'Prospective flat buyers, tenants, and delivery riders struggle with map accuracy in ' + fCity + '; profile lacks verified main entrance GPS coordinates and high-res geotagged photos of clubhouse, parking, and building elevation.' },
-
-              { title: 'Review Deficit from Residents & Buyers in ' + fCity, desc: 'Leading residential projects in ' + fCity + ' maintain 80+ verified 5★ reviews. Without a dedicated QR review standee at the sales office or society desk, 95% of satisfied residents never review.' },
-
-              { title: 'Missing 0.38s Sub-Second Project Landing Funnel', desc: 'Homebuyers clicking "Website" on Maps to inspect 2BHK/3BHK floor plans and brochure details find no fast mobile funnel, leaking warm buyer leads to 3rd-party broker portals.' },
-
-              { title: 'No Automated 24/7 After-Hours Lead Capture', desc: 'Buyer inquiries arriving after 7 PM or on weekends go unanswered; competitors with instant AI WhatsApp auto-responders capture and book site visits automatically.' }
-
-            ];
-
-            fStrengths = [
-
-              'Prime residential location registered in ' + fCity + ' urban growth corridor.',
-
-              'Profile eligible for Google Agency Zero-Password Local Pack Optimization.'
-
-            ];
-
-          } else if (medKw.some(k => fLower.includes(k))) {
-
-            fCategory = 'Healthcare, Medical Clinic & Services';
-
-            fScore = 38;
-
-            fGaps = [
-
-              { title: 'Zero Reception Counter 5-Star QR Standee', desc: '94% of satisfied treated patients leave without reviewing because there is no convenient branded QR standee at payment/reception.' },
-
-              { title: 'Review Deficit vs Top 3 Medical Competitors in ' + fCity, desc: 'Top 3 clinic rivals maintain an average of 140+ reviews and 4.8★ rating.' },
-
-              { title: 'Missing Sub-Second Patient Booking Funnel', desc: 'Patients clicking "Website" on Maps find no instant landing page, losing ~58% of mobile search visitors.' },
-
-              { title: 'No 24/7 AI Receptionist for Night Inquiries & Emergencies', desc: 'Patient calls after clinic hours go to voicemail; competitors capture those appointments.' }
-
-            ];
-
-            fStrengths = [
-
-              'Active clinic presence registered in ' + fCity + ' healthcare zone.',
-
-              'Profile eligible for Google Agency Zero-Password Optimization.'
-
-            ];
-
-          } else if (foodKw.some(k => fLower.includes(k))) {
-
-            fCategory = 'Restaurant, Cafe & Dining';
-
-            fScore = 40;
-
-            fGaps = [
-
-              { title: 'No Direct Billing Counter 5-Star Review Standee', desc: 'Dining patrons leave after paying without scanning a review QR code, causing the cafe/restaurant to lose hundreds of potential 5-star reviews.' },
-
-              { title: 'Missing High-Resolution Geo-Tagged Food & Menu Photos', desc: 'Google local algorithms strongly rank dining places with frequent dish photos and verified menu details.' },
-
-              { title: 'No 0.38s Fast Menu & Table Reservation Funnel', desc: 'Diners browsing on 4G bounce if the digital menu takes over 3 seconds to open.' },
-
-              { title: 'No Automated WhatsApp Reservation & Delivery Loop', desc: 'Customer inquiries during peak rush hours go unread; competitors capture instant orders.' }
-
-            ];
-
-            fStrengths = [
-
-              'Established dining location in ' + fCity + ' popular food corridor.',
-
-              'High organic search discovery potential on Google Maps Food Pack.'
-
-            ];
-
-          } else if (retailKw.some(k => fLower.includes(k))) {
-
-            fCategory = 'Retail Showroom, Trade & Commercial Store';
-
-            fScore = 36;
-
-            fGaps = [
-
-              { title: 'Missing Geo-Tagged Showroom & Live Inventory Showcase', desc: 'Walk-in shoppers searching for specific brands or designs cannot preview live stock on Google Maps.' },
-
-              { title: 'Review Deficit vs Regional Leaders in ' + fCity, desc: 'Top retail showrooms maintain 150+ reviews through counter QR standees at billing.' },
-
-              { title: 'No 0.38s Catalog / WhatsApp Lead Routing Funnel', desc: 'Shoppers want instant WhatsApp catalog routing instead of bulky PDFs.' },
-
-              { title: 'No Off-Hours Lead Capture for Service & Stock Queries', desc: 'Late evening customer inquiries about inventory and availability are lost.' }
-
-            ];
-
-            fStrengths = [
-
-              'Commercial trade presence registered in ' + fCity + ' prime retail district.',
-
-              'Direct buyer phone intent ready for 1-click WhatsApp routing.'
-
-            ];
-
-          } else {
-
-            fGaps = [
-
-              { title: 'Zero Billing Counter 5-Star QR Standee', desc: '94% of satisfied walk-in customers leave without reviewing because there is no convenient branded QR standee at payment.' },
-
-              { title: 'Review Deficit vs Top 3 Competitors in ' + fCity, desc: 'Top 3 rivals maintain an average of 140+ reviews and 4.8★ rating.' },
-
-              { title: 'Missing Sub-Second Mobile Funnel', desc: 'Customers clicking "Website" on Maps find no instant landing page, losing ~58% of mobile search visitors.' },
-
-              { title: 'No Automated 24/7 After-Hours Response', desc: 'Customer calls after 8 PM go to voicemail; competitors capture those leads.' }
-
-            ];
-
-            fStrengths = [
-
-              'Active presence registered in ' + fCity + ' commercial zone.',
-
-              'Profile eligible for Google Agency Zero-Password Optimization.'
-
-            ];
-
-          }
-
-          resData = {
-
-            audit_id: 'AVZ-CG-' + Math.floor(10000 + Math.random() * 90000),
-
-            business_name: fallbackName,
-
-            category: fCategory,
-
-            city: fCity,
-
-            score: fScore,
-
-            benchmark: {
-
-              avg_reviews: 140,
-
-              avg_rating: 4.8,
-
-              top_density: 'Key commercial corridors in ' + fCity
-
-            },
-
-            gaps: fGaps,
-
-            strengths: fStrengths,
-
-            google_search_url: 'https://www.google.com/search?q=' + encodeURIComponent(fallbackName + ' ' + fCity),
-
-            timestamp: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
-
-          };
-
+          const errMsg = (resData && resData.error) ? resData.error : 'Could not resolve Google Maps profile. Please enter your full business name and city or paste a valid Google Maps link.';
+          alert('⚠️ Google Maps Audit Notice:\n' + errMsg);
+          return;
         }
 
         if (btn) {
@@ -8021,42 +7771,30 @@
             progressPercent.innerText = '100%';
 
             setTimeout(() => {
-
               progressArea.classList.add('hidden');
-
+              if (speedBtn) { speedBtn.innerHTML = origSpeedBtnText; speedBtn.disabled = false; }
+              if (!speedData || !speedData.success) {
+                const errMsg = (speedData && speedData.error) ? speedData.error : ('Could not connect to ' + cleanHost + '. Please ensure the URL is active and publicly accessible.');
+                alert('⚠️ Website Audit Notice:\n' + errMsg);
+                return;
+              }
               displayDeepWebsiteResults(rawUrl, fullUrl, speedData);
-
-            if (speedBtn) { speedBtn.innerHTML = origSpeedBtnText; speedBtn.disabled = false; }
-
             }, 300);
-
           }, 400);
-
         }, 500);
-
       }
 
       function displayDeepWebsiteResults(rawUrl, fullUrl, data) {
-
         lastSpeedAuditData = data;
-
-        const latency = data ? data.latency_ms : 1850;
-
-        const estLoad = data ? data.est_mobile_load_s : 4.5;
-
-        const grade = data ? data.grade : 'D (Critical Mobile Delay)';
-
-        const score = data ? data.score : 35;
-
-        const serverSoft = data ? data.server_software : 'Standard Web Server';
-
-        const pageSize = data ? (data.page_size_kb + ' KB HTML') : '45.0 KB';
-
-        const factor = data ? data.speedup_factor : 7.5;
-
-        const auditId = data ? data.audit_id : ('AVZ-SPD-' + Math.floor(10000 + Math.random() * 90000));
-
-        const titleText = data ? (data.title || fullUrl) : fullUrl;
+        const latency = data.latency_ms;
+        const estLoad = data.est_mobile_load_s;
+        const grade = data.grade;
+        const score = data.score;
+        const serverSoft = data.server_software;
+        const pageSize = data.page_size_kb + ' KB HTML';
+        const factor = data.speedup_factor;
+        const auditId = data.audit_id;
+        const titleText = data.title || fullUrl;
 
         document.getElementById('resSpeedUrl').innerText = fullUrl;
 

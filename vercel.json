@@ -3,6 +3,9 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "routes": [
+    { "src": "/api/audit/website", "dest": "/api/audit/website.js" },
+    { "src": "/api/audit/maps", "dest": "/api/audit/maps.js" },
+    { "src": "/api/leads", "dest": "/api/leads.js" },
     { "src": "/services", "dest": "/services.html" },
     { "src": "/raipur", "dest": "/raipur.html" },
     { "src": "/contact", "dest": "/contact.html" },
