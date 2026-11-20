@@ -26,7 +26,7 @@
 
     <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
 
-    <script src="html2pdf.bundle.min.js"></script>
+    <script src="html2pdf.bundle.min.js" defer></script>
 
     <style>
 
@@ -889,7 +889,7 @@
       <div class="max-w-6xl mx-auto flex items-center justify-between gap-2">
         <!-- Master Brand Logo -->
         <a href="#hero" class="flex-shrink-0 flex items-center group">
-          <img id="nav-logo-img" src="brand_assets/avzera_official_master_logo_light.svg" alt="AVZERA DIGITAL SOLUTIONS" class="h-8 sm:h-9 w-auto transition-transform group-hover:scale-[1.02]">
+          <img id="nav-logo-img" src="brand_assets/avzera_official_master_logo_light.svg" alt="AVZERA DIGITAL SOLUTIONS" fetchpriority="high" decoding="async" class="h-8 sm:h-9 w-auto transition-transform group-hover:scale-[1.02]">
         </a>
 
         <!-- Streamlined Desktop Navigation Links (Responsive at 1024px) -->
@@ -6774,7 +6774,7 @@
       <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 text-left">
         <!-- Col 1: Studio Brand & Identity -->
         <div class="md:col-span-1">
-          <img id="footer-logo-img" src="brand_assets/avzera_official_master_logo_light.svg" alt="AVZERA Logo" class="h-10 w-auto mb-3">
+          <img id="footer-logo-img" src="brand_assets/avzera_official_master_logo_light.svg" alt="AVZERA Logo" loading="lazy" decoding="async" class="h-10 w-auto mb-3">
           <p class="text-xs leading-relaxed mb-4" style="color: var(--text-secondary);">
             <strong>AVZERA Digital Solutions</strong><br>
             100% Remote High-Performance Digital Studio.<br>
