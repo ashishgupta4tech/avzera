@@ -110,10 +110,11 @@ module.exports = async function handler(req, res) {
     let verifiedFromGoogle = false;
     let dataSource = 'url_resolution';
 
-    // 2. Google Places API (Official Engine if Key Configured)
-    const apiKey = process.env.GOOGLE_PLACES_API_KEY || process.env.GEMINI_API_KEY;
+    // 2. Google Places API (Official Engine)
+    const apiKey = process.env.GOOGLE_PLACES_API_KEY || process.env.GEMINI_API_KEY || 'AIzaSyDTqtz6Oe8KtkbNAtoHDq0bsXT1_ZHXauI';
     if (apiKey) {
       try {
+        // Try Places API (New)
         const placesResp = await fetch('https://places.googleapis.com/v1/places:searchText', {
           method: 'POST',
           headers: {
@@ -138,6 +139,24 @@ module.exports = async function handler(req, res) {
             if (p.googleMapsUri) directProfileUrl = p.googleMapsUri;
             verifiedFromGoogle = true;
             dataSource = 'google_places_api_official';
+          }
+        } else {
+          // Try Legacy Places API Text Search
+          const legResp = await fetch(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(businessName + ' ' + city)}&key=${apiKey}`);
+          if (legResp.ok) {
+            const lData = await legResp.json();
+            if (lData.results && lData.results.length > 0) {
+              const p = lData.results[0];
+              if (p.name) businessName = p.name;
+              if (p.rating !== undefined) rating = parseFloat(p.rating);
+              if (p.user_ratings_total !== undefined) reviewCount = parseInt(p.user_ratings_total);
+              if (p.formatted_address) address = p.formatted_address;
+              if (p.types && p.types.length > 0) {
+                category = p.types[0].replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+              }
+              verifiedFromGoogle = true;
+              dataSource = 'google_places_api_legacy';
+            }
           }
         }
       } catch (apiErr) {
