@@ -111,7 +111,7 @@ module.exports = async function handler(req, res) {
     let dataSource = 'url_resolution';
 
     // 2. Google Places API (Official Engine)
-    const apiKey = process.env.GOOGLE_PLACES_API_KEY || process.env.GEMINI_API_KEY || 'AIzaSyDTqtz6Oe8KtkbNAtoHDq0bsXT1_ZHXauI';
+    const apiKey = process.env.GOOGLE_PLACES_API_KEY || process.env.GEMINI_API_KEY;
     if (apiKey) {
       try {
         // Try Places API (New)
