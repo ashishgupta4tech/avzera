@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 260" width="850" height="260">
+  
+  <defs>
+    <linearGradient id="avCyanBlueGradL" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="60%" stop-color="#1d4ed8"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </linearGradient>
+    <linearGradient id="zGlowGradL" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <filter id="subtleShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0f172a" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#ffffff" rx="20"/>
+  <rect x="1" y="1" width="848" height="258" fill="none" stroke="#e2e8f0" stroke-width="1.5" rx="19"/>
+
+  <!-- Large Centered Wordmark -->
+  
+    <g transform="translate(95, 55) scale(1.28)">
+      <!-- Letter A (Initial) with Triangular Tech Counterform -->
+      <path d="M 0 90 L 31 0 L 50 0 L 81 90 L 61 90 L 53 68 L 28 68 L 20 90 Z M 32 50 L 49 50 L 40.5 25 Z" fill="#0f172a"/>
+      <polygon points="40.5,25 32,50 49,50" fill="#ffffff"/>
+      <polygon points="40.5,18 47.5,36 33.5,36" fill="url(#zGlowGradL)"/>
+
+      <!-- Letter V -->
+      <path transform="translate(89, 0)" d="M 0 0 L 20 0 L 41 68 L 62 0 L 82 0 L 51 90 L 31 90 Z" fill="#0f172a"/>
+
+      <!-- Letter Z (Hero Accent) -->
+      <path transform="translate(179, 0)" d="M 0 0 L 76 0 L 76 17 L 25 73 L 76 73 L 76 90 L 0 90 L 0 73 L 51 17 L 0 17 Z" fill="url(#zGlowGradL)"/>
+
+      <!-- Letter E -->
+      <path transform="translate(263, 0)" d="M 0 0 L 70 0 L 70 17 L 18 17 L 18 36 L 60 36 L 60 53 L 18 53 L 18 73 L 70 73 L 70 90 L 0 90 Z" fill="#0f172a"/>
+
+      <!-- Letter R -->
+      <path transform="translate(341, 0)" d="M 0 0 L 50 0 C 66 0 76 9 76 26 C 76 39 67 49 52 51 L 76 90 L 55 90 L 33 53 L 18 53 L 18 90 L 0 90 Z M 18 17 L 18 36 L 47 36 C 54 36 58 32 58 26 C 58 21 54 17 47 17 Z" fill="#0f172a"/>
+
+      <!-- Letter A (Terminal) -->
+      <path transform="translate(425, 0)" d="M 0 90 L 31 0 L 50 0 L 81 90 L 61 90 L 53 68 L 28 68 L 20 90 Z M 32 50 L 49 50 L 40.5 25 Z" fill="#0f172a"/>
+      <polygon points="40.5,25 32,50 49,50" fill="#ffffff"/>
+      <polygon points="40.5,18 47.5,36 33.5,36" fill="url(#zGlowGradL)"/>
+    </g>
+    
+
+  <!-- Tagline / Subtitle Centered -->
+  <text x="425" y="202" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="16.5" font-weight="800" letter-spacing="13" fill="#0284c7">GLOBAL IT SERVICES</text>
+</svg>

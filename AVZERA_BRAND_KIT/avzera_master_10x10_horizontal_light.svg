@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 280" width="1100" height="280">
+  <defs>
+    
+    <linearGradient id="avz-master-grad-l" x1="5%" y1="90%" x2="95%" y2="10%">
+      <stop offset="0%" stop-color="#1d4ed8"/>
+      <stop offset="25%" stop-color="#2563eb"/>
+      <stop offset="55%" stop-color="#0284c7"/>
+      <stop offset="80%" stop-color="#0891b2"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="arrow-master-grad-l" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0891b2"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="z-glyph-grad-l" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <filter id="avz-shadow-light" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+
+    
+    <mask id="ribbon-mask-dark">
+      <rect width="1000" height="600" fill="white"/>
+      <circle cx="430" cy="118" r="16" fill="black"/>
+      <circle cx="452" cy="195" r="16" fill="black"/>
+      <circle cx="342" cy="165" r="16" fill="black"/>
+      <circle cx="378" cy="248" r="16" fill="black"/>
+      <circle cx="465" cy="250" r="16" fill="black"/>
+      <circle cx="488" cy="115" r="16" fill="black"/>
+    </mask>
+    <mask id="ribbon-mask-light">
+      <rect width="1000" height="600" fill="white"/>
+      <circle cx="430" cy="118" r="16" fill="black"/>
+      <circle cx="452" cy="195" r="16" fill="black"/>
+      <circle cx="342" cy="165" r="16" fill="black"/>
+      <circle cx="378" cy="248" r="16" fill="black"/>
+      <circle cx="465" cy="250" r="16" fill="black"/>
+      <circle cx="488" cy="115" r="16" fill="black"/>
+    </mask>
+
+  </defs>
+
+  <!-- Pure Corporate White Canvas -->
+  <rect width="100%" height="100%" fill="#ffffff" rx="20"/>
+  <rect x="1" y="1" width="1098" height="278" fill="none" stroke="#e2e8f0" stroke-width="1.5" rx="19"/>
+
+  <!-- Left: The Unistroke Interlaced Ribbon Mark -->
+  <g transform="translate(30, 20) scale(0.55)" filter="url(#avz-shadow-light)">
+    <!-- Master Interlaced Ribbon with Mask -->
+    <g mask="url(#ribbon-mask-light)">
+      <path d="M 110 320 L 415 65 L 465 375 L 325 95 L 635 95 L 265 270 Q 235 285 268 298 L 595 298 Q 635 298 658 268 L 685 195" fill="none" stroke="url(#avz-master-grad-l)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <!-- Weave Bridges (restoring over-and-under intersections) -->
+    <circle cx="430" cy="118" r="11" fill="#0284c7"/>
+    <circle cx="342" cy="165" r="11" fill="#1d4ed8"/>
+    <circle cx="465" cy="250" r="11" fill="#0891b2"/>
+
+    <!-- Sharp Upward Launching Growth Arrow -->
+    <path d="M 662 225 L 692 188 L 650 178" fill="none" stroke="url(#arrow-master-grad-l)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 688 185 L 656 220 L 666 182 L 646 172 Z" fill="#059669"/>
+
+    <!-- Kinetic Energy Nodes -->
+    <circle cx="110" cy="320" r="6" fill="#1d4ed8" stroke="#ffffff" stroke-width="2"/>
+    <circle cx="415" cy="65" r="7" fill="#0284c7" stroke="#ffffff" stroke-width="2"/>
+    <circle cx="465" cy="375" r="7" fill="#1d4ed8" stroke="#ffffff" stroke-width="2"/>
+    <circle cx="635" cy="95" r="7" fill="#0891b2" stroke="#ffffff" stroke-width="2"/>
+  </g>
+
+  <!-- Elegant Vertical Divider -->
+  <line x1="435" y1="50" x2="435" y2="230" stroke="#e2e8f0" stroke-width="1.5"/>
+  <line x1="435" y1="100" x2="435" y2="180" stroke="#0284c7" stroke-width="2" opacity="0.8"/>
+
+  <!-- Right: Custom Pure Vector Wordmark in Slate Navy -->
+  
+    <g transform="translate(480, 72) scale(0.92)">
+      <!-- Letter A (Left) -->
+      <path d="M 0 90 L 30 0 L 48 0 L 78 90 L 59 90 L 51 68 L 27 68 L 19 90 Z M 32 52 L 46 52 L 39 26 Z" fill="#0f172a"/>
+      <!-- Letter V -->
+      <path transform="translate(88, 0)" d="M 0 0 L 19 0 L 39 66 L 59 0 L 78 0 L 47 90 L 31 90 Z" fill="#0f172a"/>
+      <!-- Letter Z (Brand Hero Glyph) -->
+      <path transform="translate(176, 0)" d="M 0 0 L 74 0 L 74 16 L 24 74 L 74 74 L 74 90 L 0 90 L 0 74 L 50 16 L 0 16 Z" fill="url(#z-glyph-grad-l)"/>
+      <!-- Letter E -->
+      <path transform="translate(260, 0)" d="M 0 0 L 68 0 L 68 16 L 17 16 L 17 37 L 58 37 L 58 53 L 17 53 L 17 74 L 68 74 L 68 90 L 0 90 Z" fill="#0f172a"/>
+      <!-- Letter R -->
+      <path transform="translate(338, 0)" d="M 0 0 L 48 0 C 64 0 74 9 74 25 C 74 38 65 48 50 50 L 74 90 L 53 90 L 32 52 L 17 52 L 17 90 L 0 90 Z M 17 16 L 17 36 L 46 36 C 53 36 57 32 57 26 C 57 20 53 16 46 16 Z" fill="#0f172a"/>
+      <!-- Letter A (Right) -->
+      <path transform="translate(422, 0)" d="M 0 90 L 30 0 L 48 0 L 78 90 L 59 90 L 51 68 L 27 68 L 19 90 Z M 32 52 L 46 52 L 39 26 Z" fill="#0f172a"/>
+    </g>
+    
+
+  <!-- Tagline / Subtitle in Precision Spaced Sans -->
+  <g transform="translate(482, 192)">
+    <text font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="14.5" font-weight="800" letter-spacing="9" fill="#0284c7">GLOBAL IT SERVICES</text>
+  </g>
+  <g transform="translate(940, 192)">
+    <circle cx="0" cy="-4" r="3" fill="#059669"/>
+    <text x="12" y="0" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" letter-spacing="2" fill="#64748b">ENTERPRISE</text>
+  </g>
+</svg>

@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800" width="1000" height="800">
+      <defs>
+        <linearGradient id="crest-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#38bdf8" />
+          <stop offset="50%" stop-color="#06b6d4" />
+          <stop offset="100%" stop-color="#0284c7" />
+        </linearGradient>
+        <linearGradient id="crest-purple" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#c084fc" />
+          <stop offset="50%" stop-color="#8b5cf6" />
+          <stop offset="100%" stop-color="#4f46e5" />
+        </linearGradient>
+        <linearGradient id="crest-blade" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#22d3ee" />
+          <stop offset="50%" stop-color="#818cf8" />
+          <stop offset="100%" stop-color="#d946ef" />
+        </linearGradient>
+        <linearGradient id="crest-dark-bevel" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#0f172a" />
+          <stop offset="100%" stop-color="#1e293b" />
+        </linearGradient>
+        <filter id="crest-glow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="12" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
+      <!-- Background: Deep Obsidian -->
+      <rect width="1000" height="800" rx="36" fill="#030712" />
+      <rect x="2" y="2" width="996" height="796" rx="34" fill="none" stroke="#1e293b" stroke-width="1.5" />
+
+      <!-- Center Glow -->
+      <circle cx="500" cy="340" r="260" fill="#06b6d4" opacity="0.1" filter="url(#crest-glow)" />
+
+      <!-- SOLID FACETED MONOGRAM (Geometric translation of the signature) -->
+      <g transform="translate(20, -10)">
+        
+        <!-- Facet 1: The Upward A-Apex Tower (Right peak: 590, 115) -->
+        <polygon points="590,115 620,160 555,420 535,435" fill="url(#crest-cyan)" filter="url(#crest-glow)" />
+        <polygon points="590,115 535,435 510,390 565,155" fill="url(#crest-dark-bevel)" stroke="#38bdf8" stroke-width="0.8" />
+
+        <!-- Facet 2: The Downward V-Spike (Bottom tip: 535, 435) -->
+        <!-- Converges from (430, 310) to (535, 435) -->
+        <polygon points="535,435 555,420 460,305 430,310" fill="url(#crest-purple)" filter="url(#crest-glow)" />
+
+        <!-- Facet 3: The Top Supersonic Wing & Z-Bar -->
+        <!-- From left loop (160, 215) stretching across to right tip (795, 175) -->
+        <polygon points="160,215 795,175 770,205 185,235" fill="url(#crest-blade)" filter="url(#crest-glow)" />
+
+        <!-- Facet 4: The Massive Z-Diagonal Slash -->
+        <!-- Slicing from right wingtip (795, 175) down-left to (255, 375) -->
+        <polygon points="795,175 770,205 275,400 255,375" fill="url(#crest-cyan)" opacity="0.95" />
+        <polygon points="770,205 730,225 240,395 275,400" fill="url(#crest-dark-bevel)" stroke="#818cf8" stroke-width="0.8" />
+
+        <!-- Facet 5: The Bottom Base Flow Line -->
+        <!-- Extending from (255, 375) across to (775, 385) -->
+        <polygon points="255,375 775,385 765,405 240,395" fill="url(#crest-purple)" opacity="0.9" />
+
+        <!-- Facet 6: Left Entry Dynamic Fin -->
+        <polygon points="120,420 440,195 420,210 140,430" fill="url(#crest-cyan)" opacity="0.75" />
+
+        <!-- Central Singularity Core Prism -->
+        <polygon points="490,255 520,275 490,295 460,275" fill="#ffffff" filter="url(#crest-glow)" />
+        <circle cx="490" cy="275" r="5" fill="#06b6d4" />
+      </g>
+
+      <!-- Signature Provenance Caption -->
+      <g transform="translate(500, 660)">
+        <text x="0" y="0" 
+              font-family="'Plus Jakarta Sans', system-ui, sans-serif" 
+              font-size="46" 
+              font-weight="900" 
+              letter-spacing="12" 
+              fill="#ffffff" 
+              text-anchor="middle">AVZERA</text>
+        <text x="0" y="32" 
+              font-family="'JetBrains Mono', monospace" 
+              font-size="13" 
+              font-weight="700" 
+              letter-spacing="5" 
+              fill="#38bdf8" 
+              text-anchor="middle">AERODYNAMIC SOLID CREST • FOUNDER DNA</text>
+        <text x="0" y="58" 
+              font-family="system-ui" 
+              font-size="12" 
+              font-weight="600" 
+              fill="#94a3b8" 
+              text-anchor="middle">Raipur, CG ➔ Pan-India &amp; Global AI Services</text>
+      </g>
+    </svg>

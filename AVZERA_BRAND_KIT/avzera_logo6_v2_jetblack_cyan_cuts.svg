@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 280" width="920" height="280">
+  <rect width="100%" height="100%" fill="#ffffff" rx="16"/>
+  <rect x="1" y="1" width="918" height="278" fill="none" stroke="#e2e8f0" stroke-width="1.5" rx="15"/>
+
+  <!-- Solid Jet Black letters, Electric Blue Z, Electric Cyan Cuts -->
+  
+    <g transform="translate(92, 65) scale(1.15)">
+      <!-- Letter A1 (AV in Black/Dark Navy) -->
+      <g transform="translate(0, 0)">
+        
+    <g>
+      <!-- Upper & Right body of A -->
+      <path d="M 33 0 L 51 0 L 84 100 L 63 100 L 55 72 L 27 72 L 27 0 Z" fill="#000000"/>
+      <!-- Left leg upper part (above cut) -->
+      <path d="M 0 100 L 22 100 L 22 76 L 0 76 Z" fill="#000000"/>
+      <path d="M 0 68 L 33 0 L 40 0 L 27 72 L 27 68 Z" fill="#000000"/>
+      
+      <!-- Inner triangular counterform -->
+      <polygon points="42,26 33,52 51,52" fill="#00d2ff"/>
+      
+      <!-- The Cut Slice on the left leg (Y=68 to 76) -->
+      <rect x='1' y='69' width='24' height='6' fill='#00d2ff' rx='1'/>
+    </g>
+    
+      </g>
+      
+      <!-- Letter V (AV in Black/Dark Navy) -->
+      <g transform="translate(116, 0)">
+        
+    <g>
+      <path d="M 0 0 L 21 0 L 42 70 L 63 0 L 84 0 L 52 100 L 32 100 Z" fill="#000000"/>
+    </g>
+    
+      </g>
+      
+      <!-- Letter Z (Z KO BLUE ME) -->
+      <g transform="translate(232, 0)">
+        
+    <g>
+      <!-- Top Bar -->
+      <path d="M 0 0 L 78 0 L 78 19 L 0 19 Z" fill="#0055ff"/>
+      <!-- Diagonal Stem (Upper segment above cut) -->
+      <path d="M 78 19 L 46 54 L 32 54 L 59 19 Z" fill="#0055ff"/>
+      <!-- The Diagonal Cut Slice (Y=52 to 58) -->
+      <polygon points='46,52 56,52 38,60 28,60' fill='#00d2ff'/>
+      <!-- Diagonal Stem (Lower segment below cut) -->
+      <path d="M 38 60 L 22 79 L 0 79 L 26 50 L 38 60 Z" fill="#0055ff"/>
+      <!-- Bottom Bar -->
+      <path d="M 0 81 L 78 81 L 78 100 L 0 100 Z" fill="#0055ff"/>
+    </g>
+    
+      </g>
+      
+      <!-- Letter E (Black/Dark Navy) -->
+      <g transform="translate(342, 0)">
+        
+    <g>
+      <!-- Spine -->
+      <path d="M 0 0 L 19 0 L 19 100 L 0 100 Z" fill="#000000"/>
+      <!-- Top Arm -->
+      <path d="M 19 0 L 72 0 L 72 19 L 19 19 Z" fill="#000000"/>
+      <!-- Mid Arm -->
+      <path d="M 19 41 L 62 41 L 62 59 L 19 59 Z" fill="#000000"/>
+      <!-- Bottom Arm -->
+      <path d="M 19 81 L 72 81 L 72 100 L 19 100 Z" fill="#000000"/>
+    </g>
+    
+      </g>
+      
+      <!-- Letter R (Black/Dark Navy with Cut) -->
+      <g transform="translate(446, 0)">
+        
+    <g>
+      <!-- Spine -->
+      <path d="M 0 0 L 19 0 L 19 100 L 0 100 Z" fill="#000000"/>
+      <!-- Upper Bowl -->
+      <path d="M 19 0 L 52 0 C 68 0 78 10 78 27 C 78 40 70 50 56 52 L 19 52 Z M 19 18 L 19 35 L 48 35 C 55 35 59 31 59 26 C 59 21 55 18 48 18 Z" fill="#000000"/>
+      <!-- Cut Slice separating bowl and leg (Y=52 to 58) -->
+      <rect x='32' y='52' width='28' height='6' fill='#00d2ff' rx='1'/>
+      <!-- Diagonal Kick Leg (Below cut) -->
+      <path d="M 34 58 L 54 58 L 78 100 L 56 100 L 34 62 Z" fill="#000000"/>
+    </g>
+    
+      </g>
+      
+      <!-- Letter A2 (Black/Dark Navy with Cut) -->
+      <g transform="translate(556, 0)">
+        
+    <g>
+      <!-- Upper & Right body of A -->
+      <path d="M 33 0 L 51 0 L 84 100 L 63 100 L 55 72 L 27 72 L 27 0 Z" fill="#000000"/>
+      <!-- Left leg upper part (above cut) -->
+      <path d="M 0 100 L 22 100 L 22 76 L 0 76 Z" fill="#000000"/>
+      <path d="M 0 68 L 33 0 L 40 0 L 27 72 L 27 68 Z" fill="#000000"/>
+      
+      <!-- Inner triangular counterform -->
+      <polygon points="42,26 33,52 51,52" fill="#00d2ff"/>
+      
+      <!-- The Cut Slice on the left leg (Y=68 to 76) -->
+      <rect x='1' y='69' width='24' height='6' fill='#00d2ff' rx='1'/>
+    </g>
+    
+      </g>
+    </g>
+    
+
+  <!-- Subtitle in Cobalt -->
+  
+    <g transform="translate(92, 210) scale(1.0)">
+      <text x="368.0" y="0" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="19" font-weight="800" letter-spacing="14" fill="#0055ff">GLOBAL IT SERVICES</text>
+    </g>
+    
+</svg>

@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 500" width="1500" height="500">
+      <defs>
+        <radialGradient id="banner-bg" cx="70%" cy="50%" r="70%">
+          <stop offset="0%" stop-color="#0c234b" />
+          <stop offset="50%" stop-color="#04091a" />
+          <stop offset="100%" stop-color="#020409" />
+        </radialGradient>
+        <linearGradient id="b-grad-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#38bdf8" />
+          <stop offset="100%" stop-color="#06b6d4" />
+        </linearGradient>
+        <linearGradient id="b-grad-purple" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#a855f7" />
+          <stop offset="100%" stop-color="#6366f1" />
+        </linearGradient>
+        <linearGradient id="b-grad-blade" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#22d3ee" />
+          <stop offset="50%" stop-color="#818cf8" />
+          <stop offset="100%" stop-color="#c084fc" />
+        </linearGradient>
+        <pattern id="b-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.8" opacity="0.4" />
+          <circle cx="40" cy="0" r="1.5" fill="#38bdf8" opacity="0.3" />
+        </pattern>
+        <filter id="b-glow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="10" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
+      <!-- Background -->
+      <rect width="1500" height="500" fill="url(#banner-bg)" />
+      <rect width="1500" height="500" fill="url(#b-grid)" />
+
+      <!-- Left Atmospheric Glow -->
+      <circle cx="200" cy="250" r="220" fill="#06b6d4" opacity="0.12" filter="url(#b-glow)" />
+      <circle cx="1200" cy="250" r="280" fill="#7c3aed" opacity="0.12" filter="url(#b-glow)" />
+
+      <!-- Left Text & Value Proposition -->
+      <g transform="translate(110, 110)">
+        <!-- Top Status Pill -->
+        <rect x="0" y="0" width="280" height="32" rx="16" fill="#082f49" stroke="#0284c7" stroke-width="1.2" />
+        <circle cx="20" cy="16" r="4.5" fill="#10b981" />
+        <text x="36" y="21" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" fill="#38bdf8" letter-spacing="1.5">NEXT-GEN IT &amp; AI SYSTEMS</text>
+
+        <!-- Main Title -->
+        <text x="0" y="110" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="76" font-weight="900" letter-spacing="4" fill="#ffffff">AVZERA</text>
+        <text x="350" y="110" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="34" font-weight="700" fill="#38bdf8">DIGITAL</text>
+
+        <!-- Tagline -->
+        <text x="2" y="160" font-family="system-ui, sans-serif" font-size="22" font-weight="600" fill="#cbd5e1" letter-spacing="0.5">High-Speed Modern Web Funnels • Google 3-Pack Growth • 24/7 AI Chatbots</text>
+
+        <!-- Bullet Highlights -->
+        <g transform="translate(2, 205)">
+          <text x="0" y="0" font-family="system-ui" font-size="15" font-weight="600" fill="#38bdf8">⚡ &lt;1.5s Load Time</text>
+          <text x="180" y="0" font-family="system-ui" font-size="15" font-weight="600" fill="#34d399">🛡️ Client Email Domain Safety</text>
+          <text x="440" y="0" font-family="system-ui" font-size="15" font-weight="600" fill="#c084fc">🤖 Instant WhatsApp CRM</text>
+          <text x="680" y="0" font-family="system-ui" font-size="15" font-weight="600" fill="#facc15">📍 Raipur ➔ Pan-India</text>
+        </g>
+
+        <!-- Contact Line -->
+        <g transform="translate(2, 255)">
+          <rect x="0" y="0" width="340" height="42" rx="21" fill="#059669" />
+          <text x="170" y="26" font-family="system-ui" font-size="15" font-weight="800" fill="#ffffff" text-anchor="middle">💬 WhatsApp: +91 78983 32744</text>
+          
+          <text x="370" y="26" font-family="'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#94a3b8">hello@avzera.com • Raipur, CG</text>
+        </g>
+      </g>
+
+      <!-- Right Giant Isometric Hologram -->
+      <g transform="translate(1080, 55) scale(0.76)">
+        <circle cx="256" cy="256" r="220" fill="none" stroke="#1e293b" stroke-width="2" stroke-dasharray="8 8" />
+        <circle cx="256" cy="256" r="150" fill="#06b6d4" opacity="0.2" filter="url(#b-glow)" />
+        <path d="M 256 82 L 284 130 L 174 382 L 112 382 Z" fill="url(#b-grad-cyan)" filter="url(#b-glow)" />
+        <path d="M 256 82 L 400 382 L 338 382 L 228 130 Z" fill="url(#b-grad-purple)" filter="url(#b-glow)" />
+        <path d="M 186 214 L 340 214 L 322 254 L 168 254 Z" fill="url(#b-grad-blade)" filter="url(#b-glow)" />
+        <path d="M 204 290 L 358 290 L 340 330 L 186 330 Z" fill="url(#b-grad-blade)" />
+        <polygon points="256,236 276,256 256,276 236,256" fill="#ffffff" filter="url(#b-glow)" />
+        <circle cx="256" cy="82" r="9" fill="#67e8f9" stroke="#ffffff" stroke-width="3" />
+        <circle cx="400" cy="382" r="9" fill="#a855f7" stroke="#ffffff" stroke-width="3" />
+        <circle cx="112" cy="382" r="9" fill="#06b6d4" stroke="#ffffff" stroke-width="3" />
+      </g>
+    </svg>

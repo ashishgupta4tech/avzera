@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="avzGradDark" x1="5%" y1="90%" x2="95%" y2="20%">
+      <stop offset="0%" stop-color="#6366f1" />
+      <stop offset="35%" stop-color="#3b82f6" />
+      <stop offset="70%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#22d3ee" />
+    </linearGradient>
+    <radialGradient id="avzAmbDark" cx="50%" cy="48%" r="48%">
+      <stop offset="0%" stop-color="#2563eb" stop-opacity="0.18" />
+      <stop offset="60%" stop-color="#4f46e5" stop-opacity="0.06" />
+      <stop offset="100%" stop-color="#030712" stop-opacity="0" />
+    </radialGradient>
+    <filter id="avzSoftGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" opacity="0.35" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <mask id="avzInterlaceDark">
+      <rect width="800" height="600" fill="white" />
+      <line x1="307" y1="190" x2="335" y2="252" stroke="black" stroke-width="58" stroke-linecap="round" />
+      <line x1="391" y1="160" x2="431" y2="124" stroke="black" stroke-width="58" stroke-linecap="round" />
+      <line x1="495" y1="142" x2="555" y2="142" stroke="black" stroke-width="58" stroke-linecap="round" />
+      <line x1="510" y1="185" x2="518" y2="245" stroke="black" stroke-width="58" stroke-linecap="round" />
+      <line x1="340" y1="264" x2="368" y2="326" stroke="black" stroke-width="58" stroke-linecap="round" />
+      <line x1="394" y1="383" x2="422" y2="445" stroke="black" stroke-width="58" stroke-linecap="round" />
+      <line x1="454" y1="414" x2="514" y2="414" stroke="black" stroke-width="58" stroke-linecap="round" />
+    </mask>
+  </defs>
+  <rect width="800" height="600" fill="#030712" rx="28" />
+  <rect x="1.5" y="1.5" width="797" height="597" fill="none" stroke="#1e293b" stroke-width="1.5" rx="26.5" />
+  <circle cx="420" cy="300" r="260" fill="url(#avzAmbDark)" />
+  <g filter="url(#avzSoftGlow)">
+    <g mask="url(#avzInterlaceDark)">
+      <path d="M 36 470 L 542 28 L 465 540 L 285 142 L 660 142 L 275 335 A 39.5 39.5 0 0 0 275 414 L 685 414"
+            fill="none" stroke="url(#avzGradDark)" stroke-width="38" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+    <line x1="307" y1="190" x2="335" y2="252" stroke="url(#avzGradDark)" stroke-width="38" stroke-linecap="round" />
+    <line x1="391" y1="160" x2="431" y2="124" stroke="url(#avzGradDark)" stroke-width="38" stroke-linecap="round" />
+    <line x1="495" y1="142" x2="555" y2="142" stroke="url(#avzGradDark)" stroke-width="38" stroke-linecap="round" />
+    <line x1="510" y1="185" x2="518" y2="245" stroke="url(#avzGradDark)" stroke-width="38" stroke-linecap="round" />
+    <line x1="340" y1="264" x2="368" y2="326" stroke="url(#avzGradDark)" stroke-width="38" stroke-linecap="round" />
+    <line x1="394" y1="383" x2="422" y2="445" stroke="url(#avzGradDark)" stroke-width="38" stroke-linecap="round" />
+    <line x1="454" y1="414" x2="514" y2="414" stroke="url(#avzGradDark)" stroke-width="38" stroke-linecap="round" />
+    <circle cx="744" cy="414" r="19" fill="#22d3ee" />
+  </g>
+</svg>

@@ -1,0 +1,23 @@
+{
+  "name": "AVZERA DIGITAL SOLUTIONS",
+  "short_name": "AVZERA",
+  "description": "100% Digital Remote Growth Studio | Google Maps Top-3, 0.38s Web Assets & 24/7 AI Automations",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#08152c",
+  "theme_color": "#0066fe",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "brand_assets/avzera_official_app_icon_512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}

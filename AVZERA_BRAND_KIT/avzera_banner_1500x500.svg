@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 500" width="1500" height="500">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8"/><stop offset="50%" stop-color="#06b6d4"/><stop offset="100%" stop-color="#c084fc"/>
+    </linearGradient>
+    <radialGradient id="rbg" cx="28%" cy="50%" r="45%">
+      <stop offset="0%" stop-color="#0c4a6e" stop-opacity=".2"/><stop offset="100%" stop-color="#030712"/>
+    </radialGradient>
+    <filter id="gl" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1500" height="500" fill="#030712"/>
+  <rect width="1500" height="500" fill="url(#rbg)"/>
+  <g transform="translate(70, 80) scale(0.65)">
+    <g filter="url(#gl)">
+      <path d="M 110 295 L 485 60 L 420 320 L 305 80 L 615 115 L 265 250 Q 240 260 268 266 L 655 145"
+            fill="none" stroke="url(#bg)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <path d="M 110 295 L 485 60 L 420 320 L 305 80 L 615 115 L 265 250 Q 240 260 268 266 L 655 145"
+          fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/>
+    <path d="M 636 168 L 670 140 L 648 126" fill="none" stroke="#10b981" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="640" y="220" font-family="'Plus Jakarta Sans',system-ui,sans-serif" font-size="74" font-weight="900" letter-spacing="16" fill="#ffffff">AVZERA</text>
+  <text x="645" y="265" font-family="'JetBrains Mono',monospace" font-size="16" font-weight="700" letter-spacing="6" fill="#06b6d4">ACCURACY · VISION · ZERO-COMPROMISE</text>
+  <line x1="645" y1="288" x2="1150" y2="288" stroke="#1e293b" stroke-width="1"/>
+  <text x="645" y="318" font-family="'JetBrains Mono',monospace" font-size="15" letter-spacing="2" fill="#64748b">AI-Powered Digital Solutions</text>
+  <text x="645" y="350" font-family="'JetBrains Mono',monospace" font-size="13" letter-spacing="2" fill="#475569">hello@avzera.com · +91 78983 32744</text>
+</svg>

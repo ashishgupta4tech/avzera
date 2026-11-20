@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  
+  <defs>
+    <linearGradient id="avCyanBlueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="50%" stop-color="#0088ff"/>
+      <stop offset="100%" stop-color="#0055ff"/>
+    </linearGradient>
+    <linearGradient id="zGlowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="100%" stop-color="#0066ff"/>
+    </linearGradient>
+    <radialGradient id="avAmbientGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0088ff" stop-opacity="0.25"/>
+      <stop offset="60%" stop-color="#00f0ff" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#060a12" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <g transform="translate(56, 70)">
+    
+    <g transform="translate(0, 0) scale(1.0)">
+      <!-- Letter A -->
+      <path d="M 0 160 L 56 0 L 98 0 L 154 160 L 116 160 L 102 118 L 52 118 L 38 160 Z M 60 92 L 94 92 L 77 44 Z" fill="url(#avCyanBlueGrad)"/>
+      <!-- Triangular Apex Notch -->
+      <polygon points="77,44 60,92 94,92" fill="#000000"/>
+      <polygon points="77,28 88,58 66,58" fill="url(#avCyanBlueGrad)"/>
+      
+      <!-- Letter V (Parallel Geometry) -->
+      <path transform="translate(132, 0)" d="M 0 0 L 38 0 L 76 114 L 114 0 L 152 0 L 95 160 L 57 160 Z" fill="url(#avCyanBlueGrad)"/>
+    </g>
+    
+  </g>
+</svg>
